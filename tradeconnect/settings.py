@@ -31,7 +31,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = ['8000-arp25-tradeconnect-jno9om1xnlt.ws-eu106.gitpod.io', 'localhost', 'tradeconnect-d0f5a2fe7023.herokuapp.com']
-
+CSRF_TRUSTED_ORIGINS = ['https://8000-arp25-tradeconnect-jno9om1xnlt.ws-eu106.gitpod.io']
 
 # Application definition
 
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     'django.contrib.staticfiles',
     'cloudinary',
+    'django_summernote',
     'tradeboard',
 ]
 
