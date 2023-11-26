@@ -30,8 +30,3 @@ class RatingAdmin(admin.ModelAdmin):
     list_filter = ('rating',)
     search_fields = ('post__title', 'user__username')
 
-
-#Register your models here
-#admin.site.register(TradePost)
-#admin.site.register(Rating)
-#admin.site.register(Comment)

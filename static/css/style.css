@@ -10,6 +10,27 @@
  * Copyright 2011-2022 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+
+.trade-image-container {
+  height: 200px; /* Set the fixed height for the container */
+  display: flex; /* Use flexbox */
+  align-items: center; /* Vertically center the image */
+  justify-content: center; /* Horizontally center the image */
+  overflow: hidden; /* Hide any overflow */
+}
+
+.trade-image {
+  width: auto; /* Set image width to auto */
+  height: 100%; /* Fill the container */
+  object-fit: cover; /* Maintain aspect ratio */
+}
+.mb-4 {
+  padding-top: 25px; /* Add 25px top padding */
+}
+.card-title h5 {
+  font-size: 150%;
+}
+
 :root {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
@@ -4208,6 +4229,7 @@ textarea.form-control-lg {
 
 .card-title {
   margin-bottom: var(--bs-card-title-spacer-y);
+  
 }
 
 .card-subtitle {
