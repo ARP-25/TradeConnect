@@ -11,6 +11,15 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
 
+/* CSS in your style.css or a separate stylesheet */
+.card.trade-post-card {
+  transition: transform 0.3s ease-in-out;
+}
+
+.card.trade-post-card:hover {
+  transform: scale(1.05);
+}
+
 
 .trade-image-container {
   height: 200px; /* Set the fixed height for the container */
@@ -20,11 +29,7 @@
   overflow: hidden; /* Hide any overflow */
 }
 
-.trade-image {
-  width: auto; /* Set image width to auto */
-  height: 100%; /* Fill the container */
-  object-fit: cover; /* Maintain aspect ratio */
-}
+
 .mb-4 {
   padding-top: 25px; /* Add 25px top padding */
 }

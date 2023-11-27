@@ -2,13 +2,13 @@
 
 {% block content %}
 
+
 <header class="bg-dark py-5">
     <div class="container px-5">
         <div class="row gx-5 justify-content-center">
             <div class="col-lg-6">
                 <div class="text-center my-5">
                     <h1 class="display-6 fw-bolder text-white mb-2">Connect, Share, and Prosper</h1>
-
                     <p class="lead text-white-50 mb-4">Your hub for seamless trade sharing. Post your trades, engage with a vibrant community, and leverage ratings and comments to refine your strategy. Join us and elevate your trading journey.</p>
                     <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
                         <a class="btn btn-primary btn-lg px-4 me-sm-3" href="#tradeposts">Get Started</a>
@@ -25,7 +25,7 @@
     <div class="row">
         {% for trade_post in object_list %}
             <div class="col-md-4 mb-4">
-                <div class="card">
+                <div class="card trade-post-card">
                     <div class="trade-image-container">
                         <a href="{% url 'tradepost_detail' slug=trade_post.slug %}">
                             <img class="card-img-top trade-image" src="{{ trade_post.trade_image.url }}" alt="Trade Image">
@@ -99,13 +99,6 @@
         </div>
         <div class="row gx-5 justify-content-center">
             <div class="col-lg-6">
-                <!-- * * * * * * * * * * * * * * *-->
-                <!-- * * SB Forms Contact Form * *-->
-                <!-- * * * * * * * * * * * * * * *-->
-                <!-- This form is pre-integrated with SB Forms.-->
-                <!-- To make this form functional, sign up at-->
-                <!-- https://startbootstrap.com/solution/contact-forms-->
-                <!-- to get an API token!-->
                 <form id="contactForm" data-sb-form-api-token="API_TOKEN">
                     <!-- Name input-->
                     <div class="form-floating mb-3">

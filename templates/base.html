@@ -14,11 +14,13 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="{% static 'css/style.css' %}" rel="stylesheet" />
     </head>
+
+
     <body>
         <!-- Responsive navbar-->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container px-5">
-                <a class="navbar-brand fs-2" href="#!">TradeConnect</a>
+            <div class="container px-5" style="margin-top: -7px;">
+                <a class="navbar-brand fs-2" href="{% url 'home' %}">TradeConnect</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -37,6 +39,20 @@
             </div>
         </nav>
 
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    {% for message in messages %}
+                    <div class="alert {{ message.tags }} alert-dismissible fade show" id="msg" role="alert">
+                        {{ message | safe }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    
+
         <!-- Features section-->
         {% block content %}
 
@@ -52,5 +68,12 @@
         <!-- Core theme JS-->
 
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+        <script>
+            setTimeout(function () {
+                let messages = document.getElementById('msg');
+                let alert = new bootstrap.Alert(messages);
+                alert.close();
+            }, 2500);
+        </script>
     </body>
 </html>

@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, reverse
 from django.views import generic, View
 from django.http import HttpResponseRedirect
+from django.contrib import messages
 from .models import TradePost, Rating
 from .forms import CommentForm
 
@@ -47,6 +48,7 @@ class TradePostDetail(View):
             comment = comment_form.save(commit=False)
             comment.tradepost = tradepost
             comment.save()
+            messages.success(request, 'Your comment has been added successfully and will showcase after approval!')
         else:
             comment_form = CommentForm()
 
@@ -65,6 +67,7 @@ class TradePostRating(View):
         existing_rating = Rating.objects.filter(post=tradepost, user=request.user).first()
 
         if existing_rating:
+            messages.warning(request, 'You have already rated this trade post.')
             return HttpResponseRedirect(reverse('tradepost_detail', args=[slug]))
         
         rating_value = request.POST.get('rating')
@@ -75,7 +78,10 @@ class TradePostRating(View):
             rating=rating_value
         )
 
+
         existing_rating = True
+
+        messages.success(request, 'Thank you for rating this trade post!')
 
         return HttpResponseRedirect(reverse('tradepost_detail', args=[slug]))
 
