@@ -31,7 +31,10 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+
 ALLOWED_HOSTS = ['8000-arp25-tradeconnect-jno9om1xnlt.ws-eu106.gitpod.io', 'localhost', 'tradeconnect-d0f5a2fe7023.herokuapp.com']
+
 CSRF_TRUSTED_ORIGINS = ['https://8000-arp25-tradeconnect-jno9om1xnlt.ws-eu106.gitpod.io']
 
 # Application definition
