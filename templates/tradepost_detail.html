@@ -2,6 +2,8 @@
 
 {% block content %}
 
+{% load crispy_forms_tags %}
+
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-10">
@@ -9,7 +11,7 @@
                 <img src="{{ tradepost.trade_image.url }}" class="card-img-top" alt="Trade Image">
                 <div class="card-body">
                     <h2 class="card-title">{{ tradepost.title }}</h2>
-                    <p class="card-text">{{ tradepost.description }}</p>
+                    <p class="card-text">{{ tradepost.description | safe }}</p>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">Author: {{ tradepost.author.username }}</li>
                         <li class="list-group-item">Created at: {{ tradepost.created_at }}</li>
@@ -19,26 +21,50 @@
                 </div>
             </div>
 
-            <!-- Comments Section -->
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="card-title">Comments</h3>
-                    {% for comment in comments %}
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ comment.name }}</h5>
-                                <p class="card-text">{{ comment.body }}</p>
-                                <p class="card-text">Created at: {{ comment.created_at }}</p>
-                            </div>
+            <div class="card-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3 class="card-title">Comments</h3>
+                            {% for comment in comments %}
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ comment.name }}</h5>
+                                        <p class="card-text">{{ comment.body }}</p>
+                                        <p class="card-text">Created at: {{ comment.created_at }}</p>
+                                    </div>
+                                </div>
+                            {% empty %}
+                                <p>No comments yet.</p>
+                            {% endfor %}
                         </div>
-                    {% empty %}
-                        <p>No comments yet.</p>
-                    {% endfor %}
+            
+                        <!-- Form for adding comments -->
+                        <div class="col-md-6">
 
-                    <!-- Form for adding comments -->
-                    <!-- Your comment form goes here -->
+                            {% if commented %}
+                            <div class="alert alert-sucess" role="alert">
+                                Your comment is awaiting approval
+                            </div>
+                            {% else %}
+
+                            {% if user.is_authenticated %}
+                            <div class="container">
+                                <h3>Leave a comment:</h3>
+                                <p>Posting as: {{ user.username }}</p>
+                                <form action="" method="post" style="margin-top: 1.3em;">
+                                    {{ comment_form | crispy }}
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary btn-lg" style="margin-top:15px">Submit</button>
+                                </form>
+                            </div>
+                            {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
             </div>
+            
         </div>
     </div>
 </div>
