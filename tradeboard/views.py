@@ -2,8 +2,10 @@ from django.shortcuts import render, get_object_or_404, reverse
 from django.views import generic, View
 from django.http import HttpResponseRedirect
 from django.contrib import messages
+from django.views.generic import DeleteView
 from .models import TradePost, Rating
 from .forms import CommentForm
+import logging
 
 
 # Create your views here.
@@ -69,7 +71,7 @@ class TradePostRating(View):
         if existing_rating:
             messages.warning(request, 'You have already rated this trade post.')
             return HttpResponseRedirect(reverse('tradepost_detail', args=[slug]))
-        
+      
         rating_value = request.POST.get('rating')
 
         new_rating = Rating.objects.create(
@@ -78,12 +80,20 @@ class TradePostRating(View):
             rating=rating_value
         )
 
-
         existing_rating = True
-
         messages.success(request, 'Thank you for rating this trade post!')
-
         return HttpResponseRedirect(reverse('tradepost_detail', args=[slug]))
 
+class TradePostDelete(View):
+    def post(self, request, slug):
+        tradepost = get_object_or_404(TradePost, slug=slug)
+
+        try:
+            tradepost.delete()
+            messages.success(request, 'Trade Post has been deleted!')
+        except Exception as e:
+            messages.error(request, f"Error deleting Trade Post: {e}")
+
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', reverse('home')))
 
 

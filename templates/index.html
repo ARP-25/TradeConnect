@@ -43,7 +43,13 @@
                             <li class="list-group-item">Created at: {{ trade_post.created_at }}</li>
                             <li class="list-group-item">Updated at: {{ trade_post.updated_at }}</li>
                             <li class="list-group-item">Average Rating: {{ trade_post.average_rating }}</li>
-                        </ul>
+                            {% if trade_post.author == request.user %} 
+                                <form action="{% url 'tradepost_delete' trade_post.slug %}" method="post">
+                                    {% csrf_token %}
+                                    <button>delete</button>
+                                </form>
+                            {% endif %}
+                        </ul>  
                     </div>
                 </div>
             </div>

@@ -7,8 +7,8 @@ STATUS = ((0, "Draft"), (1, "Published"))
 RATING_CHOICES = [(i, str(i)) for i in range(1, 11)]
 
 class TradePost(models.Model):
-    title = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=100)
+    title = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(max_length=100, unique=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.TextField()
     trade_image = CloudinaryField("image",default="placeholder")
