@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.text import slugify
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from cloudinary.models import CloudinaryField
 
 
@@ -8,7 +11,7 @@ RATING_CHOICES = [(i, str(i)) for i in range(1, 11)]
 
 class TradePost(models.Model):
     title = models.CharField(max_length=100, unique=True)
-    slug = models.SlugField(max_length=100, unique=True)
+    slug = models.SlugField(max_length=100, unique=True, blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.TextField()
     trade_image = CloudinaryField("image",default="placeholder")
@@ -53,6 +56,13 @@ class Comment(models.Model):
     #tostring
     def __str__(self):
         return f"Comment {self.body} by {self.name}"
+
+
+@receiver(pre_save, sender=TradePost)
+def create_slug(sender, instance, *args, **kwargs):
+    # Check if slug is not provided or empty, then create one based on the title
+    if not instance.slug or instance.slug == '':
+        instance.slug = slugify(instance.title)
 
 
 

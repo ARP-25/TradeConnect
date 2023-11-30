@@ -1,24 +1,62 @@
-from django.shortcuts import render, get_object_or_404, reverse
+from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.views import generic, View
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib import messages
-from django.views.generic import DeleteView
+from django.views.generic import DeleteView, TemplateView
+from django.utils.text import slugify
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Avg
+from PIL import Image
 from .models import TradePost, Rating
-from .forms import CommentForm
-import logging
+from .forms import CommentForm, TradePostForm
+
+
+def hello_world(request):
+    return HttpResponse("Hello, World")
+
 
 
 # Create your views here.
 class TradePostList(generic.ListView):
+
     model = TradePost
     template_name = 'index.html'
     paginate_by = 6
 
     def get_queryset(self):
-        return TradePost.objects.filter(status=1).order_by('-created_at')
+        queryset = TradePost.objects.filter(status=1)
+
+        # Retrieve the 'sort_by' parameter from the GET request
+        sort_by = self.request.GET.get('sort_by')
+
+        # Check if 'sort_by' parameter is 'old_to_new'
+        if sort_by == 'old_to_new':
+            queryset = queryset.order_by('created_at')  # Sort from old to new based on 'created_at'
+        elif sort_by == 'new_to_old':
+            queryset = queryset.order_by('-created_at')  # Sort from new to old based on 'created_at'
+
+        elif sort_by == 'highest_rated':
+            queryset = TradePost.objects.annotate(avg_rating=Avg('ratings__rating')).exclude(avg_rating=0).order_by('-avg_rating')
+        elif sort_by == 'lowest_rated':
+            queryset = TradePost.objects.annotate(avg_rating=Avg('ratings__rating')).exclude(avg_rating=0).order_by('avg_rating')
+
+        elif sort_by == 'user_posts':
+            if self.request.user.is_authenticated:
+                queryset = queryset.filter(author=self.request.user)
+            else:
+                # User is not authenticated, return a message or redirect to login page
+                return TradePost.objects.none()  # Empty queryset, adjust as per your message or redirection needs
+                
+        # Filter TradePosts by the current logged-in user
+        elif self.request.user.is_authenticated:
+            queryset = queryset.filter(author=self.request.user)
+        
+        
+        return queryset
 
 
 class TradePostDetail(View):
+
     def get(self, request, slug, *args, **kwargs):
         queryset = TradePost.objects.filter(status=1)
         tradepost = get_object_or_404(queryset, slug=slug)
@@ -64,6 +102,7 @@ class TradePostDetail(View):
         )
 
 class TradePostRating(View):
+
     def post(self, request, slug):
         tradepost = get_object_or_404(TradePost, slug=slug)
         existing_rating = Rating.objects.filter(post=tradepost, user=request.user).first()
@@ -84,7 +123,9 @@ class TradePostRating(View):
         messages.success(request, 'Thank you for rating this trade post!')
         return HttpResponseRedirect(reverse('tradepost_detail', args=[slug]))
 
+
 class TradePostDelete(View):
+
     def post(self, request, slug):
         tradepost = get_object_or_404(TradePost, slug=slug)
 
@@ -95,5 +136,56 @@ class TradePostDelete(View):
             messages.error(request, f"Error deleting Trade Post: {e}")
 
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', reverse('home')))
+
+
+class TradePostCreate(View):
+    template_name = 'tradepost_create.html'
+
+    def get(self, request):
+        form = TradePostForm()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = TradePostForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            slug = form.cleaned_data['title']
+            description = form.cleaned_data['description']
+            author = request.user
+            trade_image = request.FILES['trade_image']
+
+            trade_post = TradePost.objects.create(
+                title=title,
+                slug = slugify(title),
+                description=description,
+                author=author,
+                trade_image=trade_image
+            )
+
+            messages.success(request, 'Successfully added a TradePost. Awaiting approval before publishing.')
+            return HttpResponseRedirect(reverse('home'))  
+
+        else:
+            print(form.errors)  
+            return render(request, self.template_name, {'form': form})
+
+
+class TradePostEdit(View):
+    template_name = 'tradepost_edit.html'  
+
+    def get(self, request, trade_post_slug):  
+        trade_post = get_object_or_404(TradePost, slug=trade_post_slug)
+        form = TradePostForm(instance=trade_post)
+        return render(request, self.template_name, {'form': form,'trade_post': trade_post})
+
+    def post(self, request, trade_post_slug):  
+        trade_post = get_object_or_404(TradePost, slug=trade_post_slug)
+        form = TradePostForm(request.POST, instance=trade_post)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Successfully edited a TradePost.')
+            return HttpResponseRedirect(reverse('home'))  
+        return render(request, self.template_name, {'form': form})
 
 

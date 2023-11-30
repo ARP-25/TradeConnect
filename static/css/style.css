@@ -12,41 +12,100 @@
  */
 
 
-/*
+/*************************  custom Button *********************/
 
 
 
-*/
+/* CSS */
+.button-53 {
+  background-color: #e7d63d;
+  border: 0 solid #E5E7EB;
+  box-sizing: border-box;
+  color: #000000;
+  display: flex;
+  font-family: ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  font-size: 0.75rem;
+  font-weight: 700;
+  justify-content: center;
+  line-height: 0.1rem;
+  padding: .75rem 1.65rem;
+  position: relative;
+  text-align: center;
+  text-decoration: none #000000 solid;
+  text-decoration-thickness: auto;
+  width: 100%;
+  cursor: pointer;
+  transform: rotate(-2deg);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  max-width: 80px;
+  position: absolute;
+}
+.button-53-delete{
+  right: 20px;
+  background-color: #FF5252;
+}
+.button-53-edit{
+
+}
+.button-53:focus {
+  outline: 0;
+}
+
+.button-53:after {
+  content: '';
+  position: absolute;
+  border: 1px solid #000000;
+  bottom: 4px;
+  left: 4px;
+  width: calc(100% - 1px);
+  height: calc(100% - 1px);
+}
+
+.button-53:hover:after {
+  bottom: 2px;
+  left: 2px;
+}
 
 
 
+/*************************  custom Button **end****************/
 
-/* CSS in your style.css or a separate stylesheet */
+/************************** custom CSS ************************/
+.filter-div {
+  margin-top: 20px;
+}
+ .custom-label {
+  display: block;
+  margin-bottom: 5px; 
+  color: #333; 
+}
+.form-control {
+  width: 100%;
+}
 .card.trade-post-card {
   transition: transform 0.3s ease-in-out;
 }
-
 .card.trade-post-card:hover {
   transform: scale(1.05);
 }
-
-
 .trade-image-container {
-  height: 200px; /* Set the fixed height for the container */
-  display: flex; /* Use flexbox */
-  align-items: center; /* Vertically center the image */
-  justify-content: center; /* Horizontally center the image */
-  overflow: hidden; /* Hide any overflow */
+  height: 200px; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  overflow: hidden; 
 }
-
-
 .mb-4 {
-  padding-top: 25px; /* Add 25px top padding */
+  padding-top: 25px; 
 }
 .card-title h5 {
   font-size: 150%;
 }
 
+
+/************************** boilerplate CSS *********************/
 :root {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
@@ -136,7 +195,7 @@ body {
   line-height: var(--bs-body-line-height);
   color: var(--bs-body-color);
   text-align: var(--bs-body-text-align);
-  background-color: var(--bs-body-bg);
+  background-color: #4169E1;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
@@ -282,7 +341,7 @@ sup {
 }
 
 a {
-  color: var(--bs-link-color);
+  color: black;
   text-decoration: underline;
 }
 a:hover {
@@ -2882,7 +2941,7 @@ textarea.form-control-lg {
 
 .btn-primary {
   --bs-btn-color: #fff;
-  --bs-btn-bg: #0d6efd;
+  --bs-btn-bg: #4169E1;
   --bs-btn-border-color: #0d6efd;
   --bs-btn-hover-color: #fff;
   --bs-btn-hover-bg: #0b5ed7;
@@ -2899,7 +2958,7 @@ textarea.form-control-lg {
 
 .btn-secondary {
   --bs-btn-color: #fff;
-  --bs-btn-bg: #6c757d;
+  --bs-btn-bg: #343a40;
   --bs-btn-border-color: #6c757d;
   --bs-btn-hover-color: #fff;
   --bs-btn-hover-bg: #5c636a;
