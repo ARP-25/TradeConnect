@@ -17,6 +17,9 @@
 
 
 /* CSS */
+.bg-black {
+  background-color: black;
+}
 .button-53 {
   background-color: #e7d63d;
   border: 0 solid #E5E7EB;
@@ -73,6 +76,7 @@
 /*************************  custom Button **end****************/
 
 /************************** custom CSS ************************/
+
 .filter-div {
   margin-top: 20px;
 }
@@ -198,6 +202,9 @@ body {
   background-color: #4169E1;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+
+ 
 }
 
 hr {
@@ -682,6 +689,8 @@ progress {
 .blockquote > :last-child {
   margin-bottom: 0;
 }
+
+
 
 .blockquote-footer {
   margin-top: -1rem;
@@ -4311,7 +4320,9 @@ textarea.form-control-lg {
   margin-top: calc(-0.5 * var(--bs-card-title-spacer-y));
   margin-bottom: 0;
 }
-
+.card-text {
+  color: white;
+}
 .card-text:last-child {
   margin-bottom: 0;
 }

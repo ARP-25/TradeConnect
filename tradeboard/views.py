@@ -11,12 +11,7 @@ from .models import TradePost, Rating
 from .forms import CommentForm, TradePostForm
 
 
-def hello_world(request):
-    return HttpResponse("Hello, World")
 
-
-
-# Create your views here.
 class TradePostList(generic.ListView):
 
     model = TradePost
@@ -25,15 +20,12 @@ class TradePostList(generic.ListView):
 
     def get_queryset(self):
         queryset = TradePost.objects.filter(status=1)
-
-        # Retrieve the 'sort_by' parameter from the GET request
         sort_by = self.request.GET.get('sort_by')
 
-        # Check if 'sort_by' parameter is 'old_to_new'
         if sort_by == 'old_to_new':
-            queryset = queryset.order_by('created_at')  # Sort from old to new based on 'created_at'
+            queryset = queryset.order_by('created_at')  
         elif sort_by == 'new_to_old':
-            queryset = queryset.order_by('-created_at')  # Sort from new to old based on 'created_at'
+            queryset = queryset.order_by('-created_at')  
 
         elif sort_by == 'highest_rated':
             queryset = TradePost.objects.annotate(avg_rating=Avg('ratings__rating')).exclude(avg_rating=0).order_by('-avg_rating')
@@ -44,14 +36,8 @@ class TradePostList(generic.ListView):
             if self.request.user.is_authenticated:
                 queryset = queryset.filter(author=self.request.user)
             else:
-                # User is not authenticated, return a message or redirect to login page
-                return TradePost.objects.none()  # Empty queryset, adjust as per your message or redirection needs
-                
-        # Filter TradePosts by the current logged-in user
-        elif self.request.user.is_authenticated:
-            queryset = queryset.filter(author=self.request.user)
-        
-        
+                return TradePost.objects.none()  
+          
         return queryset
 
 

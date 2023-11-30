@@ -6,7 +6,7 @@
 {% block content %}
     <div class="container text-left my-4">
         <div class="row justify-content-center">
-            <div class="col-md-6">
+            <div class="col-md-6 bg-light p-4">
                 <h1 style="font-size: 40px; font-weight: bold;">{% trans "Sign Out" %}</h1>
                 <p>{% trans 'Are you sure you want to sign out?' %}</p>
                 {% url 'account_logout' as action_url %}
@@ -17,9 +17,10 @@
                                name="{{ redirect_field_name }}"
                                value="{{ redirect_field_value }}" />
                     {% endif %}
-                    <button type="submit" class="btn btn-warning">{% trans 'Sign Out' %}</button>
+                    <button type="submit" class="btn btn-primary">{% trans 'Sign Out' %}</button>
                 </form>
             </div>
         </div>
     </div>
+
 {% endblock content %}

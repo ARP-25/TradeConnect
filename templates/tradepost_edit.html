@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
+<!-- Prepopulated Form for Trade Post editing -->
 <section class="bg-light py-5" id="contactsec">
-    <div class="container px-5 my-5 px-5">
+    <div class="container px-5 px-5">
         <div class="text-center mb-5">
             <h2 class="fw-bolder mb-4" style="color: #333; font-size: 2.5rem;">Enter Your Trade Information</h2>
         </div>
@@ -10,25 +11,20 @@
             <div class="col-lg-6">
                 <form method="POST" action="{% url 'tradepost_edit' trade_post.slug %}" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <!-- Title input -->
                     <div class="form-floating mb-3">
                         <input class="form-control" name="title" type="text" placeholder="Enter title..." value="{{ form.title.value }}" required />
                         <label for="title">Title</label>
                     </div>
-                    <!-- Description input -->
                     <div class="form-floating mb-3">
                         <textarea class="form-control" name="description" placeholder="Enter description..." style="height: 10rem" required>{{ form.description.value }}</textarea>
                         <label for="description">Description</label>
                     </div>
-                    <!-- Image input -->
                     <div class="form-group mb-3">
                         <label for="trade_image" class="custom-label">Trade Image (Current)</label>
                         <p class="text-danger">{{ trade_post.title }}</p>
 
                         <input class="form-control" name="trade_image" type="file" id="trade_image" />
                     </div>
-                                
-                    <!-- Submit Button -->
                     <div class="d-grid">
                         <button class="btn btn-primary btn-lg" type="submit">Save changes and go back to Start</button>
                     </div>
@@ -37,4 +33,5 @@
         </div>
     </div>
 </section>
+
 {% endblock %}

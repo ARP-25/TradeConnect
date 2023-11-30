@@ -4,23 +4,26 @@
 
 {% load crispy_forms_tags %}
 
+<!-- Detailed View Trade Post -->
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <div class="card mb-4">
+            <div class="card mb-4 bg-dark">
                 <img src="{{ tradepost.trade_image.url }}" class="card-img-top" alt="Trade Image">
                 <div class="card-body">
-                    <h2 class="card-title">{{ tradepost.title }}</h2>
-                    <p class="card-text">{{ tradepost.description | safe }}</p>
+                    <h2 class="card-title text-light">{{ tradepost.title }}</h2>
+                    <p class="text-warning fst-italic">{{ tradepost.description | safe }}</p>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Author: {{ tradepost.author.username }}</li>
-                        <li class="list-group-item">Created at: {{ tradepost.created_at }}</li>
-                        <li class="list-group-item">Updated at: {{ tradepost.updated_at }}</li>
-
+                        <li class="list-group-item bg-dark text-light">Author: {{ tradepost.author.username }}</li>
+                        <li class="list-group-item bg-dark text-light">Created at: {{ tradepost.created_at }}</li>
+                        <li class="list-group-item bg-dark text-light">Updated at: {{ tradepost.updated_at }}</li>
+                        <!-- Rating Functionality -->
                         {% if user.is_authenticated %}
                             {% if not existing_rating %}
+                           
                                 <form class="d-inline" action="{% url 'tradepost_rating' tradepost.slug %}" method="post">
                                     {% csrf_token %}
+                                    <p class= "text-light">Rate this Trade!</p>
                                     <select name="rating" id="numberSelect">
                                         <option value="1">1</option>
                                         <option value="2">2</option>
@@ -35,15 +38,17 @@
                                     </select> 
                                     <button type="submit" class="btn-like">Auswählen</button>
                                 </form>
+                            
                             {% else %}
-                                <li class="list-group-item">You have already rated this Trade.</li>
+                                <li class="list-group-item bg-dark text-white">You have already rated this Trade.</li>
                             {% endif %}
                         {% endif %}
-                        <li class="list-group-item">Average Rating: {{ tradepost.average_rating }}</li>
+                        <li class="list-group-item bg-dark text-light">Average Rating: {{ tradepost.average_rating }}</li>
                     </ul>
                 </div>
             </div>
 
+            <!-- Comments -->
             <div class="card-body">
                 <div class="container">
                     <div class="row">
@@ -53,8 +58,8 @@
                                 <div class="card mb-3">
                                     <div class="card-body">
                                         <h5 class="card-title">{{ comment.name }}</h5>
-                                        <p class="card-text">{{ comment.body }}</p>
-                                        <p class="card-text">Created at: {{ comment.created_at }}</p>
+                                        <p class="card-text text-black fst-italic">{{ comment.body }}</p>
+                                        <p class="card-text text-black fst-italic">Created at: {{ comment.created_at }}</p>
                                     </div>
                                 </div>
                             {% empty %}
@@ -76,7 +81,7 @@
                                         <form action="" method="post" style="margin-top: 1.3em;">
                                             {{ comment_form | crispy }}
                                             {% csrf_token %}
-                                            <button type="submit" class="btn btn-primary btn-lg" style="margin-top:15px">Submit</button>
+                                            <button type="submit" class="btn btn-light btn-lg" style="margin-top:15px">Submit</button>
                                         </form>
                                     </div>
                                 {% endif %}
