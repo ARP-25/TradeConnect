@@ -2,3 +2,20 @@
 {% load i18n %}
 {% user_display user as name %}
 {% blocktrans %}Successfully signed in as {{name}}.{% endblocktrans %}
+<div id="successMessage">
+    {% blocktrans %}Successfully signed in as {{name}}.{% endblocktrans %}
+</div>
+<script>
+    // Get the success message element
+    const successMessage = document.getElementById('successMessage');
+
+    // Function to hide the success message after 3 seconds
+    function hideSuccessMessage() {
+        setTimeout(() => {
+            successMessage.style.display = 'none';
+        }, 3000); // Hide after 3 seconds (3000 milliseconds)
+    }
+
+    // Call the function to hide the success message when the page loads
+    window.onload = hideSuccessMessage;
+</script>
