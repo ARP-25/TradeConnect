@@ -7,7 +7,7 @@ from django.utils.text import slugify
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Avg
 from PIL import Image
-from .models import TradePost, Rating
+from .models import TradePost, Rating, ContactMessage
 from .forms import CommentForm, TradePostForm
 
 
@@ -173,5 +173,40 @@ class TradePostEdit(View):
             messages.success(request, 'Successfully edited a TradePost.')
             return HttpResponseRedirect(reverse('home'))  
         return render(request, self.template_name, {'form': form})
+
+
+class ContactFormView(View):
+    def post(self, request, *args, **kwargs):
+
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        message = request.POST.get('message')
+        logging(name, email, phone, message)  # Check the values in the console
+        contact_message = ContactMessage.objects.create(
+            name=name,
+            email=email,
+            phone_number=phone,
+            body_message=message
+        )
+
+        return HttpResponse('Form submitted successfully!')
+
+
+def submit_form(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        message = request.POST.get('message')
+        phone = request.POST.get('phone')
+
+        contact_message = ContactMessage.objects.create(
+            name=name,
+            email=email,
+            body_message=message,
+            phone_number=phone  
+        ) 
+
+        return HttpResponseRedirect(reverse('home'))
 
 

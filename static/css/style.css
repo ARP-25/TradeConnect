@@ -17,6 +17,11 @@
 
 
 /* CSS */
+
+#customTextArea {
+  height: 150px; /* Adjust the height as needed */
+  /* You can also include other styling properties */
+}
 .bg-black {
   background-color: black;
 }

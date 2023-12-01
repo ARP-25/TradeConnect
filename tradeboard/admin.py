@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import TradePost, Rating, Comment
+from .models import TradePost, Rating, Comment, ContactMessage
 from django_summernote.admin import SummernoteModelAdmin
 
 
@@ -29,4 +29,13 @@ class RatingAdmin(admin.ModelAdmin):
     list_display = ('post', 'user', 'rating')
     list_filter = ('rating',)
     search_fields = ('post__title', 'user__username')
+
+
+@admin.register(ContactMessage)
+class MessageAdmin(admin.ModelAdmin):
+    list_display = ('name', 'email', 'phone_number','body_message')
+
+
+
+
 

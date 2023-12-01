@@ -10,6 +10,7 @@ STATUS = ((0, "Draft"), (1, "Published"))
 RATING_CHOICES = [(i, str(i)) for i in range(1, 11)]
 
 class TradePost(models.Model):
+
     title = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True, blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -19,19 +20,16 @@ class TradePost(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     status = models.IntegerField(choices=STATUS, default=0)
 
-    #sortiert posts von neu zu alt
     class Meta:
         ordering = ['-created_at']
-    #tostring
     def __str__(self):
         return self.title
-    #avrgrating ausgabe
     def average_rating(self):
         ratings = self.ratings.all()
         if ratings:
             total_ratings = sum([rating.rating for rating in ratings])
             return total_ratings / len(ratings)
-        return 0  # Default if no ratings
+        return 0  
 
 
 class Rating(models.Model):
@@ -50,19 +48,28 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     approved = models.BooleanField(default=False)
 
-    #oldest comments listed first
     class Meta:
         ordering = ["created_at"]
-    #tostring
     def __str__(self):
         return f"Comment {self.body} by {self.name}"
 
 
+class ContactMessage(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    phone_number = models.IntegerField()
+    body_message = models.TextField()
+
+    def __str__(self):
+        return f"{self.name} - {self.email}- {self.phone_number}- {self.body_message}"
+
+
 @receiver(pre_save, sender=TradePost)
 def create_slug(sender, instance, *args, **kwargs):
-    # Check if slug is not provided or empty, then create one based on the title
     if not instance.slug or instance.slug == '':
         instance.slug = slugify(instance.title)
+
+
 
 
 
