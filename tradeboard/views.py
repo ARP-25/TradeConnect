@@ -206,7 +206,7 @@ def submit_form(request):
             body_message=message,
             phone_number=phone  
         ) 
-
+        messages.success(request, 'Thank you for submitting a Message.')
         return HttpResponseRedirect(reverse('home'))
 
 
