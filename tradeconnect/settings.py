@@ -17,6 +17,15 @@ from django.contrib.messages import constants as messages
 if os.path.isfile("env.py"):
     import env
 
+# SMTP Email Settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp-mail.outlook.com'  # Outlook SMTP server
+EMAIL_PORT = 587  # Port for Outlook SMTP server (587 for TLS)
+EMAIL_USE_TLS = True  # Enable TLS (True for most SMTP servers)
+EMAIL_HOST_USER = 'angelo.pucci@outlook.de'  # Your Outlook email address
+EMAIL_HOST_PASSWORD = 'your_outlook_email_password'  # Your Outlook email password or app-specific password
+DEFAULT_FROM_EMAIL = 'angelo.pucci@outlook.de'  # Sender's email address (usually same as EMAIL_HOST_USER)
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
