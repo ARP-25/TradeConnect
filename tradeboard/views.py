@@ -6,7 +6,6 @@ from django.views.generic import DeleteView, TemplateView
 from django.utils.text import slugify
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Avg
-from PIL import Image
 from .models import TradePost, Rating, ContactMessage
 from .forms import CommentForm, TradePostForm
 
