@@ -4,6 +4,8 @@ from django.utils.text import slugify
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from cloudinary.models import CloudinaryField
+from allauth.account.signals import email_confirmed
+from django.dispatch import receiver
 
 
 STATUS = ((0, "Draft"), (1, "Published"))
@@ -68,6 +70,15 @@ class ContactMessage(models.Model):
 def create_slug(sender, instance, *args, **kwargs):
     if not instance.slug or instance.slug == '':
         instance.slug = slugify(instance.title)
+
+
+
+
+@receiver(email_confirmed)
+def email_confirmed(request, email_address, **kwargs):
+    
+    pass
+
 
 
 
