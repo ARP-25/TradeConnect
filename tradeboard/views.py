@@ -6,7 +6,7 @@ from django.views.generic import DeleteView, TemplateView
 from django.utils.text import slugify
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Avg
-from .models import TradePost, Rating, ContactMessage
+from .models import TradePost, Rating, ContactMessage, Comment
 from .forms import CommentForm, TradePostForm
 
 
@@ -174,22 +174,7 @@ class TradePostEdit(View):
         return render(request, self.template_name, {'form': form})
 
 
-class ContactFormView(View):
-    def post(self, request, *args, **kwargs):
 
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        phone = request.POST.get('phone')
-        message = request.POST.get('message')
-        logging(name, email, phone, message)  # Check the values in the console
-        contact_message = ContactMessage.objects.create(
-            name=name,
-            email=email,
-            phone_number=phone,
-            body_message=message
-        )
-
-        return HttpResponse('Form submitted successfully!')
 
 
 def submit_form(request):

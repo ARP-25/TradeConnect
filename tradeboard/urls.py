@@ -10,6 +10,6 @@ urlpatterns = [
     path('rating/<slug:slug>/', views.TradePostRating.as_view(), name='tradepost_rating'),
     path('delete/<slug:slug>/', views.TradePostDelete.as_view(), name='tradepost_delete'),
     path('tradepost/edit/<slug:trade_post_slug>/', views.TradePostEdit.as_view(), name='tradepost_edit'),
-    path('', views.ContactFormView.as_view(), name='contact_message'),
+
     
 ]
