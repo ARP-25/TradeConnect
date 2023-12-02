@@ -33,39 +33,50 @@
             </div>
         </nav>
         
-        <!-- Message -->
-        <div class="container" style="position: relative;">
-            <div class="row">
-                <div class="col-md-8 offset-md-2" style="position: relative; z-index: 1;">
-                </div>
-                <div class="col-md-8 offset-md-2" style="position: absolute; top: 20px; z-index: 2;">
-                    {% for message in messages %}
-                    <div class="alert {{ message.tags }} alert-dismissible fade show" id="msg" role="alert">
-                        {{ message | safe }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
+<!-- Message -->
+<div class="container" style="position: relative;">
+    <div class="row">
+        <div class="col-md-8 offset-md-2" style="position: relative; z-index: 1;">
         </div>
+        <div class="col-md-8 offset-md-2" style="position: absolute; top: 20px; z-index: 2;">
+            {% for message in messages %}
+            <div class="alert {{ message.tags }} alert-dismissible fade show" id="msg" role="alert">
+                {{ message | safe }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
 
-        <!-- Features section-->
-        {% block content %}
+<!-- Features section-->
+{% block content %}
 
-        {% endblock content %}
+{% endblock content %}
 
-        <!-- Scripts -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(function () {
-                let messages = document.getElementById('msg');
-                if (messages !== null) {
-                    let alert = new bootstrap.Alert(messages);
-                    alert.close();
-                }
-                }, 2500);
-            });
-        </script>
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(function () {
+        let messages = document.getElementById('msg');
+        if (messages !== null) {
+            let alert = new bootstrap.Alert(messages);
+            alert.close();
+        }
+        }, 2500);
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(function () {
+        let messages = document.querySelectorAll('.msg');
+        messages.forEach(function (msg) {
+            let alert = new bootstrap.Alert(msg);
+            alert.close();
+        });
+    }, 2500);
+    });
+</script>
+</body>
+</html>
     </body>
 </html>
