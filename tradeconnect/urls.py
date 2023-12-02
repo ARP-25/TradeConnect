@@ -18,9 +18,15 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
+    # Admin panel URL
     path('admin/', admin.site.urls),
+    
+    # Summernote URL for rich text editing
     path('summernote/', include('django_summernote.urls')),
+    
+    # Include tradeboard app's URLs
     path("", include("tradeboard.urls"), name="tradeboard-urls"),
+    
+    # Accounts-related URLs for authentication (using django-allauth)
     path("accounts/", include("allauth.urls")),
-
 ]

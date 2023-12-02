@@ -11,24 +11,10 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
 
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
 
-/* Hide number input arrows */
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-input[type="number"] {
-    -moz-appearance: textfield; /* Firefox */
-}
-
-
-#customTextArea {
-  height: 150px; /* Adjust the height as needed */
-  /* You can also include other styling properties */
-}
+/*************************  custom Button **start**************/
 .bg-black {
   background-color: black;
 }
@@ -88,7 +74,12 @@ input[type="number"] {
 /*************************  custom Button **end****************/
 
 /************************** custom CSS ************************/
-
+.socials {
+  padding-bottom:20px;
+}
+#customTextArea {
+  height: 150px; 
+}
 .filter-div {
   margin-top: 20px;
 }
@@ -205,7 +196,7 @@ input[type="number"] {
 
 body {
   margin: 0;
-  font-family: var(--bs-body-font-family);
+  font-family: 'Montserrat', sans-serif;
   font-size: var(--bs-body-font-size);
   font-weight: var(--bs-body-font-weight);
   line-height: var(--bs-body-line-height);

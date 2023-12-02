@@ -17,11 +17,11 @@
                         <li class="list-group-item bg-dark text-light">Author: {{ tradepost.author.username }}</li>
                         <li class="list-group-item bg-dark text-light">Created at: {{ tradepost.created_at }}</li>
                         <li class="list-group-item bg-dark text-light">Updated at: {{ tradepost.updated_at }}</li>
+
                         <!-- Rating Functionality -->
                         {% if user.is_authenticated %}
-                            {% if not existing_rating %}
-                           
-                                <form class="d-inline" action="{% url 'tradepost_rating' tradepost.slug %}" method="post">
+                            {% if not existing_rating %}                          
+                                <form class="d-inline" action="{% url 'tradepost_rating' tradepost.slug %}" method="post" >
                                     {% csrf_token %}
                                     <p class= "text-light">Rate this Trade!</p>
                                     <select name="rating" id="numberSelect">
@@ -37,8 +37,7 @@
                                         <option value="10">10</option>
                                     </select> 
                                     <button type="submit" class="btn-like">Auswählen</button>
-                                </form>
-                            
+                                </form>                           
                             {% else %}
                                 <li class="list-group-item bg-dark text-white">You have already rated this Trade.</li>
                             {% endif %}

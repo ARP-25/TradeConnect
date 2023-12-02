@@ -12,12 +12,29 @@ from .forms import CommentForm, TradePostForm
 
 
 class TradePostList(generic.ListView):
+    """
+    ListView to display a paginated list of trade posts based on certain criteria.
+
+    Attributes:
+        model (Model): The model class used for this ListView.
+        template_name (str): The HTML template used for rendering the list.
+        paginate_by (int): Number of items to display per page.
+
+    Methods:
+        get_queryset: Retrieve the queryset based on filters and sorting criteria.
+    """
 
     model = TradePost
     template_name = 'index.html'
     paginate_by = 6
 
     def get_queryset(self):
+        """
+        Retrieve the queryset based on sorting criteria.
+
+        Returns:
+            queryset: Filtered and sorted queryset of TradePost objects.
+        """
         queryset = TradePost.objects.filter(status=1)
         sort_by = self.request.GET.get('sort_by')
 
@@ -41,8 +58,26 @@ class TradePostList(generic.ListView):
 
 
 class TradePostDetail(View):
+    """
+    View to display the details of a specific trade post and handle comments.
 
+    Methods:
+        get: Handle GET requests for viewing trade post details.
+        post: Handle POST requests for adding comments to a trade post.
+    """
     def get(self, request, slug, *args, **kwargs):
+        """
+        Handle GET requests to display trade post details and approved comments.
+
+        Args:
+            request (HttpRequest): The request object.
+            slug (str): The slug of the trade post.
+            *args: Variable length argument list.
+            **kwargs: Arbitrary keyword arguments.
+
+        Returns:
+            HttpResponse: Rendered HTML template displaying trade post details and comments.
+        """
         queryset = TradePost.objects.filter(status=1)
         tradepost = get_object_or_404(queryset, slug=slug)
         comments = tradepost.comments.filter(approved=True).order_by('created_at')
@@ -61,6 +96,18 @@ class TradePostDetail(View):
         )
 
     def post(self, request, slug, *args, **kwargs):
+        """
+        Handle POST requests to add comments to a trade post.
+
+        Args:
+            request (HttpRequest): The request object.
+            slug (str): The slug of the trade post.
+            *args: Variable length argument list.
+            **kwargs: Arbitrary keyword arguments.
+
+        Returns:
+            HttpResponse: Rendered HTML template with comment addition status.
+        """
         queryset = TradePost.objects.filter(status=1)
         tradepost = get_object_or_404(queryset, slug=slug)
         comments = tradepost.comments.filter(approved=True).order_by('created_at')
@@ -87,8 +134,23 @@ class TradePostDetail(View):
         )
 
 class TradePostRating(View):
+    """
+    View to handle user ratings for trade posts.
 
+    Methods:
+        post: Handle POST requests to add or update ratings for a trade post.
+    """
     def post(self, request, slug):
+        """
+        Handle POST requests to add or update ratings for a trade post.
+
+        Args:
+            request (HttpRequest): The request object.
+            slug (str): The slug of the trade post.
+
+        Returns:
+            HttpResponseRedirect: Redirects back to the trade post detail page.
+        """
         tradepost = get_object_or_404(TradePost, slug=slug)
         existing_rating = Rating.objects.filter(post=tradepost, user=request.user).first()
 
@@ -110,8 +172,23 @@ class TradePostRating(View):
 
 
 class TradePostDelete(View):
+    """
+    View to handle the deletion of a trade post.
 
+    Methods:
+        post: Handle POST requests to delete a trade post.
+    """
     def post(self, request, slug):
+        """
+        Handle POST requests to delete a trade post.
+
+        Args:
+            request (HttpRequest): The request object.
+            slug (str): The slug of the trade post.
+
+        Returns:
+            HttpResponseRedirect: Redirects to the previous page or home upon deletion.
+        """
         tradepost = get_object_or_404(TradePost, slug=slug)
 
         try:
@@ -119,18 +196,48 @@ class TradePostDelete(View):
             messages.success(request, 'Trade Post has been deleted!')
         except Exception as e:
             messages.error(request, f"Error deleting Trade Post: {e}")
+                
 
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', reverse('home')))
 
 
 class TradePostCreate(View):
+    """
+    View to handle the creation of new trade posts.
+
+    Attributes:
+        template_name (str): The HTML template used for creating a new trade post.
+
+    Methods:
+        get: Handle GET requests to display the trade post creation form.
+        post: Handle POST requests to create a new trade post.
+    """
+
     template_name = 'tradepost_create.html'
 
     def get(self, request):
+        """
+        Handle GET requests to display the trade post creation form.
+
+        Args:
+            request (HttpRequest): The request object.
+
+        Returns:
+            HttpResponse: Rendered HTML template with the trade post creation form.
+        """
         form = TradePostForm()
         return render(request, self.template_name, {'form': form})
 
     def post(self, request):
+        """
+        Handle POST requests to create a new trade post.
+
+        Args:
+            request (HttpRequest): The request object.
+
+        Returns:
+            HttpResponseRedirect: Redirects to the home page upon successful creation or renders the form with errors.
+        """
         form = TradePostForm(request.POST, request.FILES)
 
         if form.is_valid():
@@ -157,14 +264,45 @@ class TradePostCreate(View):
 
 
 class TradePostEdit(View):
+    """
+    View to handle the editing of a trade post.
+
+    Attributes:
+        template_name (str): The HTML template used for editing a trade post.
+
+    Methods:
+        get: Handle GET requests to display the trade post edit form.
+        post: Handle POST requests to update a trade post.
+    """
+
     template_name = 'tradepost_edit.html'  
 
     def get(self, request, trade_post_slug):  
+        """
+        Handle GET requests to display the trade post edit form.
+
+        Args:
+            request (HttpRequest): The request object.
+            trade_post_slug (str): The slug of the trade post to be edited.
+
+        Returns:
+            HttpResponse: Rendered HTML template with the trade post edit form and trade post details.
+        """
         trade_post = get_object_or_404(TradePost, slug=trade_post_slug)
         form = TradePostForm(instance=trade_post)
         return render(request, self.template_name, {'form': form,'trade_post': trade_post})
 
     def post(self, request, trade_post_slug):  
+        """
+        Handle POST requests to update a trade post.
+
+        Args:
+            request (HttpRequest): The request object.
+            trade_post_slug (str): The slug of the trade post to be updated.
+
+        Returns:
+            HttpResponseRedirect: Redirects to the home page upon successful update or renders the form with errors.
+        """
         trade_post = get_object_or_404(TradePost, slug=trade_post_slug)
         form = TradePostForm(request.POST, instance=trade_post)
         if form.is_valid():
@@ -174,10 +312,16 @@ class TradePostEdit(View):
         return render(request, self.template_name, {'form': form})
 
 
-
-
-
 def submit_form(request):
+    """
+    Handle form submission for contact messages.
+
+    Args:
+        request (HttpRequest): The request object containing form data.
+
+    Returns:
+        HttpResponseRedirect: Redirects to the home page upon successful form submission.
+    """
     if request.method == 'POST':
         name = request.POST.get('name')
         email = request.POST.get('email')

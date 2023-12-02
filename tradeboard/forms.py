@@ -3,6 +3,13 @@ from django import forms
 
 
 class CommentForm(forms.ModelForm):
+    """
+    Form for adding a comment.
+
+    Fields:
+        body (str): The content of the comment.
+
+    """
     class Meta:
         model = Comment
         fields =('body',)
@@ -10,6 +17,15 @@ class CommentForm(forms.ModelForm):
 
 
 class TradePostForm(forms.ModelForm):
+    """
+    Form for creating or updating a trade post.
+
+    Fields:
+        title (str): The title of the trade post.
+        description (str): The description of the trade post.
+        trade_image (ImageField): The image associated with the trade post.
+
+    """
     class Meta:
         model = TradePost
         fields = ['title', 'description', 'trade_image']

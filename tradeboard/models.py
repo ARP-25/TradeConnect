@@ -10,7 +10,25 @@ STATUS = ((0, "Draft"), (1, "Published"))
 RATING_CHOICES = [(i, str(i)) for i in range(1, 11)]
 
 class TradePost(models.Model):
+    """
+    Model representing a trade post.
 
+    Attributes:
+        title (str): The title of the trade post.
+        slug (str): The slugified version of the title used in URLs.
+        author (User): The author of the trade post.
+        description (str): The description of the trade post.
+        trade_image (CloudinaryField): The image associated with the trade post.
+        created_at (DateTime): The date and time when the trade post was created.
+        updated_at (DateTime): The date and time when the trade post was last updated.
+        status (int): The status of the trade post (Draft or Published).
+
+    Methods:
+        average_rating: Calculate the average rating of the trade post based on ratings.
+
+    Meta:
+        ordering: Ordering of trade posts by creation date.
+    """
     title = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True, blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -33,6 +51,15 @@ class TradePost(models.Model):
 
 
 class Rating(models.Model):
+    """
+    Model representing a rating given to a trade post.
+
+    Attributes:
+        post (TradePost): The trade post associated with the rating.
+        user (User): The user who rated the trade post.
+        rating (int): The rating value given to the trade post.
+
+    """
     post = models.ForeignKey(TradePost, on_delete=models.CASCADE,
         related_name='ratings')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -40,6 +67,20 @@ class Rating(models.Model):
 
 
 class Comment(models.Model):
+    """
+    Model representing a comment on a trade post.
+
+    Attributes:
+        tradepost (TradePost): The trade post associated with the comment.
+        name (str): The name of the commenter.
+        email (str): The email of the commenter.
+        body (str): The content of the comment.
+        created_at (DateTime): The date and time when the comment was created.
+        approved (bool): The approval status of the comment.
+
+    Meta:
+        ordering: Ordering of comments by creation date.
+    """
     tradepost = models.ForeignKey(TradePost, on_delete=models.CASCADE,
                              related_name="comments")
     name = models.CharField(max_length=100)
@@ -55,6 +96,15 @@ class Comment(models.Model):
 
 
 class ContactMessage(models.Model):
+    """
+    Model representing a contact message.
+
+    Attributes:
+        name (str): The name of the person sending the message.
+        email (str): The email of the person sending the message.
+        phone_number (int): The phone number of the person sending the message.
+        body_message (str): The content of the message.
+    """
     name = models.CharField(max_length=100)
     email = models.EmailField()
     phone_number = models.IntegerField()
@@ -66,6 +116,15 @@ class ContactMessage(models.Model):
 
 @receiver(pre_save, sender=TradePost)
 def create_slug(sender, instance, *args, **kwargs):
+    """
+    Pre-save signal receiver to create a slug for a TradePost instance.
+
+    Args:
+        sender: The model class.
+        instance: The instance being saved.
+        *args: Variable length argument list.
+        **kwargs: Arbitrary keyword arguments.
+    """
     if not instance.slug or instance.slug == '':
         instance.slug = slugify(instance.title)
 
