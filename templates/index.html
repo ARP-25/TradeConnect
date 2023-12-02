@@ -12,7 +12,7 @@
                     <p class="lead text-white-50 mb-4">Your hub for seamless trade sharing. Post your trades, engage with a vibrant community, and leverage ratings and comments to refine your strategy. Join us and elevate your trading journey.</p>
                     <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
                         {% if user.is_authenticated %}
-                            <a class="btn btn-primary btn-lg px-4" href="{% url 'tradepost_create' %}">Post a Trade!</a>
+                            <a class="btn btn-primary btn-lg px-4" href="{% url 'tradepost_create' %}"><i class="fa-solid fa-plus"> </i> Post a Trade!</a>
                         {% else %}
                                 <div class="col-12">
                                     <a class="btn btn-primary btn-lg px-4 me-sm-3 mb-3" href="{% url 'account_login' %}">Login to Post a Trade</a>
@@ -29,6 +29,7 @@
 <div class="text-center filter-div">
     <div class="dropdown d-inline-block">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-filter"></i>
             Filter Trade Posts
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">

@@ -23,7 +23,7 @@
                             {% if not existing_rating %}                          
                                 <form class="d-inline" action="{% url 'tradepost_rating' tradepost.slug %}" method="post" >
                                     {% csrf_token %}
-                                    <p class= "text-light">Rate this Trade!</p>
+                                    <p class="fw-bold text-success">Rate this Trade!</p>
                                     <select name="rating" id="numberSelect">
                                         <option value="1">1</option>
                                         <option value="2">2</option>
@@ -36,7 +36,7 @@
                                         <option value="9">9</option>
                                         <option value="10">10</option>
                                     </select> 
-                                    <button type="submit" class="btn-like">Auswählen</button>
+                                    <button type="submit" class="btn btn-success">Auswählen</button>
                                 </form>                           
                             {% else %}
                                 <li class="list-group-item bg-dark text-white">You have already rated this Trade.</li>
@@ -80,7 +80,7 @@
                                         <form action="" method="post" style="margin-top: 1.3em;">
                                             {{ comment_form | crispy }}
                                             {% csrf_token %}
-                                            <button type="submit" class="btn btn-light btn-lg" style="margin-top:15px">Submit</button>
+                                            <button type="submit" class="btn btn-success btn-lg" style="margin-top:15px">Submit</button>
                                         </form>
                                     </div>
                                 {% endif %}
