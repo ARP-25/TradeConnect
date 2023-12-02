@@ -18,7 +18,6 @@ if os.path.isfile("env.py"):
     import env
 
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
@@ -31,7 +30,7 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
@@ -48,8 +47,9 @@ EMAIL_USE_TLS = True  # Enable TLS (True for most SMTP servers)
 EMAIL_HOST_USER = 'angelo.pucci@outlook.de'  # Your Outlook email address
 EMAIL_HOST_PASSWORD = 'angP2508+'  # Your Outlook email password or app-specific password
 DEFAULT_FROM_EMAIL = 'angelo.pucci@outlook.de'  # Sender's email address (usually same as EMAIL_HOST_USER)
-# Application definition
 
+
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
