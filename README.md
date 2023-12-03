@@ -1,110 +1,224 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# TradeConnect - Tradeboard <br>
+![titleimage](assets/documentation/images/am_I_responsive.png) 
+## Description
+TradeConnect TradeBoard: An interactive Django-powered platform designed for traders. Share your trade strategies, engage in insightful discussions, and refine your approach with user ratings and comments. Join us, elevate your trading game, and connect with fellow traders on this vibrant platform crafted for growth and success.
 
-Welcome Angelo Rocco Pucci,
+[Click here to view the Live Project](https://arp-25.github.io/superbike_cards/index.html)
 
-This is the Code Institute student template for Gitpod. We have preinstalled all of the tools you need to get started. It's perfectly ok to use this template as the basis for your project submissions.
+## Table of contents
 
-You can safely delete this README.md file, or change it for your own project. Please do read it at least once, though! It contains some important information about Gitpod and the extensions we use. Some of this information has been updated since the video content was created. The last update to this file was: **September 1, 2021**
+- [User Experience (UX)](#User-Experience-(UX))
+- [Features](#Features)
+- [Design](#Design)
+- [Technologies Used](#Technologies-Used)
+- [Testing](#Testing)
+- [Deployment](#Deployment)
+- [Credits](#Credits)
 
-## Gitpod Reminders
 
-To run a frontend (HTML, CSS, Javascript only) application in Gitpod, in the terminal, type:
+## User Experience (UX)
 
-`python3 -m http.server`
+### User stories
 
-A blue button should appear to click: _Make Public_,
+#### Start Page: 
 
-Another blue button should appear to click: _Open Browser_.
+- US01 Get a idea what the purpose of the page is about and see clear and concise instructions on how the game works so that I can quickly understand how to play.
 
-To run a backend Python file, type `python3 app.py`, if your Python file is named `app.py` of course.
+- US02 Be able to enter my username so that I can personalize my gaming experience.
 
-A blue button should appear to click: _Make Public_,
+- US03 Receive feedback if I enter an invalid or empty username so that I know what I need to correct.
 
-Another blue button should appear to click: _Open Browser_.
+- US04 Have a "Start Game" button on the instructions page so that I can begin playing the game.
 
-In Gitpod you have superuser security privileges by default. Therefore you do not need to use the `sudo` (superuser do) command in the bash terminal in any of the lessons.
+#### Game Page:
 
-To log into the Heroku toolbelt CLI:
+- US05 Have clear and intuitive game controls to interact with the game effectively.
 
-1. Log in to your Heroku account and go to *Account Settings* in the menu under your avatar.
-2. Scroll down to the *API Key* and click *Reveal*
-3. Copy the key
-4. In Gitpod, from the terminal, run `heroku_config`
-5. Paste in your API key when asked
+- US06 Receive instructions or guidance on how to play the game against the computer.
 
-You can now use the `heroku` CLI program - try running `heroku apps` to confirm it works. This API key is unique and private to you so do not share it. If you accidentally make it public then you can create a new one with _Regenerate API Key_.
+- US07 See my current score or progress during the game so that I can track my performance.
 
-------
+- US08 Have the option to exit the game and return to the instructions page in case I want to review the game rules, change my username or simply start a new game.
 
-## Release History
+## Features
 
-We continually tweak and adjust this template to help give you the best experience. Here is the version history:
+### Existing Features
 
-**September 20 2023:** Update Python version to 3.9.17.
+#### Start Page
 
-**September 1 2021:** Remove `PGHOSTADDR` environment variable.
+-  F01 Header 
+    -   Logo
+    ![Header](assets/documentation/images/feature_1.png)    
+-  F02 Instructions
+    -   Step by step game instructions
+    ![Instructions](assets/documentation/images/feature_2.png) 
+-  F03 Player Name Input
+    -   A input field for the player name
+    -   Personalizing game experience
+    -   Input is required and limited to ten characters
+    ![Player Name Input](assets/documentation/images/feature_3.png) 
 
-**July 19 2021:** Remove `font_fix` script now that the terminal font issue is fixed.
+-  F04 Start Game Button
+    -   Button to enter the Game by "onclick"
+    -   Will check if Player Name is entered
+    ![Start Game Button](assets/documentation/images/feature_4.png) 
 
-**July 2 2021:** Remove extensions that are not available in Open VSX.
 
-**June 30 2021:** Combined the P4 and P5 templates into one file, added the uptime script. See the FAQ at the end of this file.
+#### Game Page
 
-**June 10 2021:** Added: `font_fix` script and alias to fix the Terminal font issue
+-  F05 Header 
+    -   Logo
+    ![Header](assets/documentation/images/feature_1.png) 
+-  F06 Cards
+    -   Card Area consistend of Player Card and Computer Card
+    -   Player Card is interactive and give the player the option to choose a attribute to enter the battle
+    -   Computer Card will get revealed after Player engaged the battle so the Player will be able to see if he won or lost the round
+    ![Cards](assets/documentation/images/feature_6.png) 
+-  F07 Draft Next Card Button
+    -   Interactive Button for Player to draft his next card
+    ![Draft Next Card Button](assets/documentation/images/feature_7.png)
+-  F08 Scores
+    -   Score area to showcase the current scores of Player and Computer
+    ![Scores](assets/documentation/images/feature_8.png)
+-  F09 Return to Start Page Button
+    -   Button which brings you back to the Start Page by "onclick"
 
-**May 10 2021:** Added `heroku_config` script to allow Heroku API key to be stored as an environment variable.
+### Table of Features and User Stories combined
 
-**April 7 2021:** Upgraded the template for VS Code instead of Theia.
+In this table you can see that every User Story is covered by an implemented Feature.
 
-**October 21 2020:** Versions of the HTMLHint, Prettier, Bootstrap4 CDN and Auto Close extensions updated. The Python extension needs to stay the same version for now.
+|     | US 1     | US 2     | US 3     | US 4     | US 5     | US 6     | US 7     | US 8     | 
+|-----|----------|----------|----------|----------|----------|----------|----------|----------|
+| F 1 |     x    |          |          |          |          |          |          |          |
+| F 2 |     x    |          |          |          |          |          |          |          |
+| F 3 |          |    x     |   x      |          |          |          |          |          |
+| F 4 |          |          |          | x        |          |          |          |          |
+| F 5 |     x    |          |          |          |          |          |          |          |
+| F 6 |          |          |          |          |  x       | x        | x        |          |
+| F 7 |          |          |          |          |  x       | x        | x        |          |
+| F 8 |          |          |          |          |  x       | x        | x        |          |
+| F 9 |          |          |          |          |  x       |          |          |      x   |
 
-**October 08 2020:** Additional large Gitpod files (`core.mongo*` and `core.python*`) are now hidden in the Explorer, and have been added to the `.gitignore` by default.
+### Features which could be implemented in the future
 
-**September 22 2020:** Gitpod occasionally creates large `core.Microsoft` files. These are now hidden in the Explorer. A `.gitignore` file has been created to make sure these files will not be committed, along with other common files.
+- Graphical Score Count.
+- Database with previous player and ranking system which can be inspected from webpage.
+- Terminal that displays info about game cycle (rounds, drafts and what the next step in the game is).
 
-**April 16 2020:** The template now automatically installs MySQL instead of relying on the Gitpod MySQL image. The message about a Python linter not being installed has been dealt with, and the set-up files are now hidden in the Gitpod file explorer.
+## Design
 
-**April 13 2020:** Added the _Prettier_ code beautifier extension instead of the code formatter built-in to Gitpod.
+-   ### Imagery
+    -   The card pictures are all realistically representing the associated card specs and are both not fictional.
 
-**February 2020:** The initialisation files now _do not_ auto-delete. They will remain in your project. You can safely ignore them. They just make sure that your workspace is configured correctly each time you open it. It will also prevent the Gitpod configuration popup from appearing.
+-   ### Colour Scheme
+    -  The color Scheme is adjusted to mainly provide good contrast and readability but still offers an appealing design and fit the theme of superbikes.
+    -  The specific areas have the background-color: "rgb(51,51,51)". Which is a dark gray similar to asphalt.
+    -  For logo and certain elements "#FFA500" and "aqua" were used. These two provide a modern, race sport and game oriented look.
+    -  Font Color is adjusted through the game to give good contrast to specific background-color.
 
-**December 2019:** Added Eventyret's Bootstrap 4 extension. Type `!bscdn` in a HTML file to add the Bootstrap boilerplate. Check out the <a href="https://github.com/Eventyret/vscode-bcdn" target="_blank">README.md file at the official repo</a> for more options.
+-   ### Typography
+    -   Google Fonts was used to import font into styles.css. Orbitron and Bangers were chosen to introduce a dynamic contrast. Orbitron represents sleek futuristic technology, focusing on precision and speed, while Bangers bring a gritty, rebellious vibe with raw power and aggression. This choice adds diversity, balance, and engaging gameplay to the experience.
 
-------
+-   ### Wireframes
 
-## FAQ about the uptime script
+    [WireFrames Superbike Cards 2023 Edition](https://www.figma.com/file/wmXvMsoPH0Q0xPqbRAXWVs/Superbike-Cards-2023-Edition?type=design&node-id=0-1&mode=design&t=28Gqof5EH0XBYHV7-0)
 
-**Why have you added this script?**
+    ![WireFrames Screenshot](assets/documentation/images/wireframes.png)
 
-It will help us to calculate how many running workspaces there are at any one time, which greatly helps us with cost and capacity planning. It will help us decide on the future direction of our cloud-based IDE strategy.
+## Technologies Used
 
-**How will this affect me?**
+### Languages Used
 
-For everyday usage of Gitpod, it doesn’t have any effect at all. The script only captures the following data:
+-   [HTML5](https://en.wikipedia.org/wiki/HTML5)
+-   [CSS3](https://en.wikipedia.org/wiki/Cascading_Style_Sheets)
+-   [Javascript](https://en.wikipedia.org/wiki/JavaScript)
+-   [Markdown](https://de.wikipedia.org/wiki/Markdown)
 
-- An ID that is randomly generated each time the workspace is started.
-- The current date and time
-- The workspace status of “started” or “running”, which is sent every 5 minutes.
+### Frameworks, Libraries & Programs Used
 
-It is not possible for us or anyone else to trace the random ID back to an individual, and no personal data is being captured. It will not slow down the workspace or affect your work.
+-   [Gitpod:](https://gitpod.io) was used as IDE to create the code. It provides good compatibility with github and offers useful IDE extensions.
+-   [Google Fonts:](https://fonts.google.com/) was used to import fonts.
+-   [Font Awesome:](https://fontawesome.com/) was used to add icons for aesthetic and UX purposes.
+-   [GitHub:](https://github.com/) is used as the respository for the projects code after being pushed from Git.
+-   [ILoveImg:](https://www.iloveimg.com) was used for resizing images and editing photos for the website.
+-   [Figma:](https://www.figma.com/) was used to create the wireframes during the design process.
 
-**So….?**
+## Testing
 
-We want to tell you this so that we are being completely transparent about the data we collect and what we do with it.
+### Validator Testing
 
-**Can I opt out?**
+For validator testing https://validator.w3.org/, https://jigsaw.w3.org/css-validator/ and https://jshint.com/ were used. The code runs totally error free and has only negligible warnings.
 
-Yes, you can. Since no personally identifiable information is being captured, we'd appreciate it if you let the script run; however if you are unhappy with the idea, simply run the following commands from the terminal window after creating the workspace, and this will remove the uptime script:
+### Performance
 
-```
-pkill uptime.sh
-rm .vscode/uptime.sh
-```
+Google Lighthouse in Google Chrome Developer Tools was used to test the performance of the website. The maximum score in all categories were achieved. 
 
-**Anything more?**
+#### Start Page
+![Lighthouse Start Page](assets/documentation/images/lighthouse.png)
+#### Game Page
+![Lighthouse Game Page](assets/documentation/images/lighthouse_game_page.png)
 
-Yes! We'd strongly encourage you to look at the source code of the `uptime.sh` file so that you know what it's doing. As future software developers, it will be great practice to see how these shell scripts work.
+However the game page was lacking eight points in the "Best Practices" categories in the first run of the test so the code had to be improved. The insufficiency was rectified by replacing the "DOM Mutation Event" (DOMSubtreeModified) with a "MutationObserver" implementation. The Process is documented below.
 
----
+![Lighthouse Game Page before](assets/documentation/images/lighthouse_game_page_before.png)
+![Before](assets/documentation/images/code_before.png)
+![After](assets/documentation/images/code_after.png)
 
-Happy coding!
+### Browser Compatibility
+
+- Testing has been carried out on the following browsers :
+    - Chrome Version 115.0.5790.111 (Official Build) (64-bit)
+    - Firefox Version 116.0 (64-bit)
+    - Edge Version 115.0.1901.188 (Official build) (64-bit)
+    - Safari on iPhone (iOS-Version 14.6 (c))
+
+### Test Cases and Results
+
+![ManualTesting](assets/documentation/images/manual_testing.png)
+
+## Deployment
+
+### How this site was deployed
+
+- In the GitHub repository, navigate to the Settings tab, then choose Pages from the left hand menu.
+- From the source section drop-down menu, select the Master Branch.
+- Once the master branch has been selected, the page will be automatically refreshed with a detailed ribbon display to indicate the successful deployment.
+- Any changes pushed to the master branch will take effect on the live project.
+
+  The live link can be found here - [Superbike Cards 2023 Edition](https://arp-25.github.io/superbike_cards/) 
+
+### How to clone the repository
+
+- Go to the https://arp-25.github.io/superbike_cards/ repository on GitHub.
+- Click the "Code" button to the right of the screen, click HTTPs and copy the link there.
+- Open a GitBash terminal and navigate to the directory where you want to locate the clone.
+- On the command line, type "git clone" then paste in the copied url and press the Enter key to begin the clone process.
+
+## Credits 
+
+### Content 
+
+All content was written by the developer.
+
+### Code
+
+Examples and instructions for basic html and CSS code:
+
+- https://developer.mozilla.org
+- https://www.w3schools.com
+- https://learn.codeinstitute.net/
+
+Additional searching for problemfixes:
+
+- https://stackoverflow.com
+- https://www.youtube.com/?gl=DE&hl=de
+
+### Media 
+ 
+- All icons were taken from [Font Awesome](https://fontawesome.com/).
+- All fonts used were imported from [Google Fonts](https://fonts.google.com/).
+- All bike images were mainly downloaded from the official manufacturer.
+
+### Shoutout
+
+Special thanks to my Mentor Oluwafemi Medale for helping me out whenever I have a question.
