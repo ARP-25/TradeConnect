@@ -13,11 +13,11 @@
                 <form method="POST" action="{% url 'tradepost_create_submit' %}" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="form-floating mb-3">
-                        <input class="form-control" name="title" type="text" placeholder="Enter title..." required />
+                        <input class="form-control" id="title" name="title" type="text" placeholder="Enter title..." required />
                         <label for="title">Title</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <textarea class="form-control" name="description" placeholder="Enter description..." style="height: 10rem" required></textarea>
+                        <textarea class="form-control" id="description" name="description" placeholder="Enter description..." style="height: 10rem" required></textarea>
                         <label for="description">Description</label>
                     </div>
                     <div class="form-group mb-3">

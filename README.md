@@ -1,9 +1,9 @@
 # TradeConnect - Tradeboard <br>
-![titleimage](https://res.cloudinary.com/dbui0ebjv/image/upload/v1701604603/background_pfwdzn.jpg) 
+![titleimage](https://res.cloudinary.com/dbui0ebjv/image/upload/v1701634734/amiresponsive_1_a8dglf.png) 
 ## Description
-TradeConnect TradeBoard: An interactive Django-powered platform designed for traders. Share your trade strategies, engage in insightful discussions, and refine your approach with user ratings and comments. Join us, elevate your trading game, and connect with fellow traders on this vibrant platform crafted for growth and success.
+TradeConnect  An interactive Django-powered platform designed for traders. Share your trade strategies, engage in insightful discussions, and refine your approach with user ratings and comments. Join us, elevate your trading game, and connect with fellow traders on this vibrant platform crafted for growth and success.
 
-[Click here to view the Live Project](https://arp-25.github.io/superbike_cards/index.html)
+[Click here to view the Live Project](https://tradeconnect-d0f5a2fe7023.herokuapp.com/)
 
 ## Table of contents
 
