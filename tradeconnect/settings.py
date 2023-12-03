@@ -12,18 +12,27 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path  # For handling paths
 
-# Build the path to the env.py file
 env_file = Path(__file__).resolve().parent.parent / 'env.py'
+
 if env_file.is_file():
     try:
         with open(env_file) as f:
             code = compile(f.read(), env_file, 'exec')
-            exec(code)
+            exec(code, globals())  # Import environment variables to settings.py
         print("env.py imported successfully")
     except Exception as e:
         print(f"Error importing env.py: {e}")
 else:
     print("env.py file not found")
+
+# Now you can directly use the variables like EMAIL_HOST, EMAIL_PORT, etc., from env.py in your settings.py
+EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND')
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_PORT = os.environ.get('EMAIL_PORT')
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
 
 import os
 import dj_database_url
