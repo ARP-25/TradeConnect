@@ -14,31 +14,9 @@ from pathlib import Path  # For handling paths
 
 env_file = Path(__file__).resolve().parent.parent / 'env.py'
 
-if env_file.is_file():
-    try:
-        with open(env_file) as f:
-            code = compile(f.read(), env_file, 'exec')
-            exec(code, globals())  # Import environment variables to settings.py
-        print("env.py imported successfully")
-    except Exception as e:
-        print(f"Error importing env.py: {e}")
-else:
-    print("env.py file not found")
 
-# Now you can directly use the variables like EMAIL_HOST, EMAIL_PORT, etc., from env.py in your settings.py
-EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND')
-EMAIL_HOST = os.environ.get('EMAIL_HOST')
-EMAIL_PORT = os.environ.get('EMAIL_PORT')
-EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS')
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
-
-import os
 import dj_database_url
 from django.contrib.messages import constants as messages
-
-
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -62,15 +40,34 @@ ALLOWED_HOSTS = ['8000-arp25-tradeconnect-jno9om1xnlt.ws-eu106.gitpod.io', 'loca
 CSRF_TRUSTED_ORIGINS = ['https://8000-arp25-tradeconnect-jno9om1xnlt.ws-eu106.gitpod.io']
 
 
-# SMTP Email Settings
-#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-#EMAIL_HOST = 'smtp-mail.outlook.com'  # Outlook SMTP server
-#EMAIL_PORT = 587  # Port for Outlook SMTP server (587 for TLS)
-#EMAIL_USE_TLS = True  # Enable TLS (True for most SMTP servers)
-#EMAIL_HOST_USER = 'angelo.pucci@outlook.de'  # Your Outlook email address
-#EMAIL_HOST_PASSWORD = 'angP2508+'  # Your Outlook email password or app-specific password
-#DEFAULT_FROM_EMAIL = 'angelo.pucci@outlook.de'  # Sender's email address (usually same as EMAIL_HOST_USER)
+# Test import
+if env_file.is_file():
+    try:
+        with open(env_file) as f:
+            code = compile(f.read(), env_file, 'exec')
+            exec(code, globals())  # Import environment variables to settings.py
+        print("env.py imported successfully")
+    except Exception as e:
+        print(f"Error importing env.py: {e}")
+else:
+    print("env.py file not found")
 
+
+EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND')
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_PORT = os.environ.get('EMAIL_PORT')
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
+
+print(f"EMAIL_BACKEND: {EMAIL_BACKEND}")
+print(f"EMAIL_HOST: {EMAIL_HOST}")
+print(f"EMAIL_PORT: {EMAIL_PORT}")
+print(f"EMAIL_USE_TLS: {EMAIL_USE_TLS}")
+print(f"EMAIL_HOST_USER: {EMAIL_HOST_USER}")
+print(f"EMAIL_HOST_PASSWORD: {EMAIL_HOST_PASSWORD}")
+print(f"DEFAULT_FROM_EMAIL: {DEFAULT_FROM_EMAIL}")
 
 # Application definition
 INSTALLED_APPS = [
