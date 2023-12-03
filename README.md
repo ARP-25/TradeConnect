@@ -1,5 +1,5 @@
 # TradeConnect - Tradeboard <br>
-![titleimage](assets/documentation/images/am_I_responsive.png) 
+![titleimage](https://res.cloudinary.com/dbui0ebjv/image/upload/v1701604603/background_pfwdzn.jpg) 
 ## Description
 TradeConnect TradeBoard: An interactive Django-powered platform designed for traders. Share your trade strategies, engage in insightful discussions, and refine your approach with user ratings and comments. Join us, elevate your trading game, and connect with fellow traders on this vibrant platform crafted for growth and success.
 

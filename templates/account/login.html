@@ -13,25 +13,35 @@
                     {% blocktrans %}If you have not created an account yet, then please
                     <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}
                 </p>
-                {% url 'account_login' as login_url %}
-                <div class="d-flex justify-content-start">
-                    <div>
-                        {% element form form=form method="post" action=login_url tags="entrance,login" %}
-                            {% slot body %}
-                                {% csrf_token %}
-                                {% element fields form=form unlabeled=True %}
-                                {% endelement %}
-                                {% if redirect_field_value %}
-                                    <input type="hidden"
-                                           name="{{ redirect_field_name }}"
-                                           value="{{ redirect_field_value }}" />
+                <form method="post" action="{% url 'account_login' %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        {% for field in form %}
+                            <div>
+                                <label style="padding-top:15px;" for="{{ field.id_for_label }}">
+                                    {% if field.field.required %}<span style="color: red;">*</span>{% endif %}
+                                    {{ field.label|capfirst }}
+                                </label>
+                            </div>
+                            <div>
+                                {{ field }}
+                                {% if field.errors %}
+                                    <ul class="errorlist">
+                                        {% for error in field.errors %}
+                                            <li>{{ error|escape }}</li>
+                                        {% endfor %}
+                                    </ul>
                                 {% endif %}
-                            {% endslot %}
-                            {% slot actions %}
-                                <button type="submit" class="btn btn-primary">{% trans "Sign In" %}</button>
-                            {% endslot %}
-                        {% endelement %}
+                            </div>
+                        {% endfor %}
                     </div>
+                    {% if redirect_field_value %}
+                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                    {% endif %}
+                    <button type="submit" class="btn btn-primary">{% trans "Sign In" %}</button>
+                </form>
+                <div>
+                    <a href="{% url 'account_reset_password' %}">{% trans "Forgot your password?" %}</a>
                 </div>
                 {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
             </div>

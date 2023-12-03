@@ -71,8 +71,7 @@ class TradePostListViewTest(TestCase):
         response = TradePostList.as_view()(request)
 
         queryset = TradePost.objects.filter(status=1).order_by('-created_at')
-
-        
+       
         self.assertQuerysetEqual(
             response.context_data['object_list'],
             queryset,

@@ -30,18 +30,18 @@
     <div class="dropdown d-inline-block">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fa-solid fa-filter"></i>
-            Filter Trade Posts
+            Sort
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <li>
                 <form method="GET" action="">
-                    <button class="dropdown-item" type="submit" name="sort_by" value="old_to_new">Sort Old to New</button>
-                    <button class="dropdown-item" type="submit" name="sort_by" value="new_to_old">Sort New to Old</button>
-                    <button class="dropdown-item" type="submit" name="sort_by" value="highest_rated">Sort by Highest Rated</button>
-                    <button class="dropdown-item" type="submit" name="sort_by" value="lowest_rated">Sort by Lowest Rated</button>
+                    <button class="dropdown-item" type="submit" name="sort_by" value="old_to_new">Oldest</button>
+                    <button class="dropdown-item" type="submit" name="sort_by" value="new_to_old">Newest</button>
+                    <button class="dropdown-item" type="submit" name="sort_by" value="highest_rated">Highest Rated</button>
+                    <button class="dropdown-item" type="submit" name="sort_by" value="lowest_rated">Lowest Rated</button>
                     <button class="dropdown-item" type="submit" name="show_all" value="true">Show All Trades</button>
                     {% if request.user.is_authenticated %}
-                        <button class="dropdown-item" type="submit" name="sort_by" value="user_posts">Sort by User</button>
+                        <button class="dropdown-item" type="submit" name="sort_by" value="user_posts">By User</button>
                     {% endif %}
                 </form>
             </li>
@@ -66,7 +66,13 @@
                                 {{ trade_post.title }}
                             </a>
                         </h2>
-                        <p class="text-warning fst-italic">{{ trade_post.description|safe }}</p>
+                        <p class="text-warning fst-italic trade-description">
+                            {% if trade_post.description|length > 30 %}
+                                {{ trade_post.description|slice:":30" }}{{ "..." }}
+                            {% else %}
+                                {{ trade_post.description }}
+                            {% endif %}
+                        </p>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item bg-dark text-light">Author: {{ trade_post.author.username }}</li>
                             <li class="list-group-item bg-dark text-light">Created at: {{ trade_post.created_at }}</li>

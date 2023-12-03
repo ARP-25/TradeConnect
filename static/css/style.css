@@ -15,6 +15,11 @@
 
 
 /*************************  custom Button **start**************/
+.trade-description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .bg-black {
   background-color: black;
 }
@@ -444,6 +449,7 @@ th {
 
 label {
   display: inline-block;
+  padding-top: 15px;
 }
 
 button {

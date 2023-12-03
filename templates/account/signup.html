@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-{% load allauth i18n socialaccount %}
+{% load i18n %}
+{% load allauth account socialaccount %}
 {% block head_title %}
     {% trans "Signup" %}
 {% endblock head_title %}
@@ -12,29 +13,58 @@
                     {% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}
                 </p>
                 {% url 'account_signup' as action_url %}
-                <div class="d-flex justify-content-start">
-                    <div>
-                        {% element form form=form method="post" action=action_url tags="entrance,signup" %}
-                            {% slot body %}
-                                {% csrf_token %}
-                                {% element fields form=form unlabeled=True %}
-                                {% endelement %}
-                                {% if redirect_field_value %}
-                                    <input type="hidden"
-                                           name="{{ redirect_field_name }}"
-                                           value="{{ redirect_field_value }}" />
+                <form method="post" action="{{ action_url }}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        {% for field in form %}
+                            <div>
+                                <label style="padding-top:15px;" for="{{ field.id_for_label }}">
+                                    {% if field.field.required %}<span style="color: red;">*</span>{% endif %}
+                                    {{ field.label|capfirst }}
+                                </label>
+                            </div>
+                            <div>
+                                {{ field }}
+                                {% if field.name == 'password1' %}
+                                    {% for error in field.errors %}
+                                        <ul class="errorlist">
+                                            <li>{{ error|escape }}</li>
+                                        </ul>
+                                    {% endfor %}
+                                    <br>
+                                    <small>Password must contain:</small>
+                                    <ul>
+                                        <li>At least 8 characters</li>
+                                        <li>At least one uppercase letter</li>
+                                        <li>At least one lowercase letter</li>
+                                        <li>At least one digit</li>
+                                    </ul>
+                                    <!-- Add more requirements based on your configuration -->
+                                {% else %}
+                                    {% if field.errors %}
+                                        <ul class="errorlist">
+                                            {% for error in field.errors %}
+                                                <li>{{ error|escape }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
                                 {% endif %}
-                            {% endslot %}
-                            {% slot actions %}
-                            <button type="submit" class="btn btn-primary">{% trans "Sign Up" %}</button>
-                            {% endslot %}
-                        {% endelement %}
+                            </div>
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <div class="alert alert-danger" role="alert">{{ error|escape }}</div>
+                        {% endfor %}
                     </div>
+                    {% if redirect_field_value %}
+                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                    {% endif %}
+                    <button type="submit" class="btn btn-primary">{% trans "Sign Up" %}</button>
+                </form>
+                <div>
+                    <a href="{% url 'account_reset_password' %}">{% trans "Forgot your password?" %}</a>
                 </div>
                 {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
             </div>
         </div>
     </div>
-
-
 {% endblock content %}
