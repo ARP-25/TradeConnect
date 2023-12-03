@@ -106,7 +106,7 @@ class TradePostDetail(View):
             **kwargs: Arbitrary keyword arguments.
 
         Returns:
-            HttpResponse: Rendered HTML template with comment addition status.
+            HttpResponseRedirect: Rendered HTML template with comment addition status.
         """
         queryset = TradePost.objects.filter(status=1)
         tradepost = get_object_or_404(queryset, slug=slug)
@@ -125,13 +125,7 @@ class TradePostDetail(View):
             comment_form = CommentForm()
 
 
-        return render(
-            request,
-            "tradepost_detail.html",
-            {
-                "tradepost": tradepost, "comments": comments,"commented": True, "comment_form": CommentForm()
-            },
-        )
+        return HttpResponseRedirect(reverse('tradepost_detail', kwargs={'slug': tradepost.slug}))
 
 class TradePostRating(View):
     """
@@ -328,13 +322,19 @@ def submit_form(request):
         message = request.POST.get('message')
         phone = request.POST.get('phone')
 
-        contact_message = ContactMessage.objects.create(
-            name=name,
-            email=email,
-            body_message=message,
-            phone_number=phone  
-        ) 
-        messages.success(request, 'Thank you for submitting a Message.')
-        return HttpResponseRedirect(reverse('home'))
+        try:
+            contact_message = ContactMessage.objects.create(
+                name=name,
+                email=email,
+                body_message=message,
+                phone_number=phone
+            )
+            messages.success(request, 'Thank you for submitting a message.')
+            return HttpResponseRedirect(reverse('home'))
+
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            messages.error(request, 'An error occurred while processing your request. Make sure to use a number max 9 characters long.')
+            return HttpResponseRedirect(reverse('home'))  
 
 

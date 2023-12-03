@@ -146,7 +146,7 @@
         </div>
         <div class="row gx-5 justify-content-center">
             <div class="col-lg-6">
-                <form name="myForm" onsubmit="return validateForm()" action="{% url 'submit_form' %}" method="post" class="needs-validation">
+                <form name="myForm" onsubmit="return validateForm()" action="{% url 'submit_form' %}" method="post" >
                     {% csrf_token %}
                     <div class="form-floating mb-3">
                         <input class="form-control" id="name" name="name" type="text"required>
@@ -157,7 +157,7 @@
                         <label for="email">Email address</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input class="form-control" id="phone" name="phone" type="number"  title="Please enter only numbers"  required>
+                        <input class="form-control" id="phone" name="phone" type="text"  title="Please enter only numbers"  required>
                         <label for="phone">Phone number</label>
                     </div>
                     <div class="form-floating mb-3">

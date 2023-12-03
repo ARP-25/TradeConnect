@@ -36,7 +36,7 @@ class TradePost(models.Model):
     trade_image = CloudinaryField("image",default="placeholder")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    status = models.IntegerField(choices=STATUS, default=0)
+    status = models.IntegerField(choices=STATUS, default=1)
 
     class Meta:
         ordering = ['-created_at']
@@ -87,7 +87,7 @@ class Comment(models.Model):
     email = models.EmailField()
     body = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    approved = models.BooleanField(default=False)
+    approved = models.BooleanField(default=True)
 
     class Meta:
         ordering = ["created_at"]
@@ -102,12 +102,12 @@ class ContactMessage(models.Model):
     Attributes:
         name (str): The name of the person sending the message.
         email (str): The email of the person sending the message.
-        phone_number (int): The phone number of the person sending the message.
+        phone_number (str): The phone number of the person sending the message.
         body_message (str): The content of the message.
     """
     name = models.CharField(max_length=100)
     email = models.EmailField()
-    phone_number = models.IntegerField()
+    phone_number = models.CharField(max_length=100)
     body_message = models.TextField()
 
     def __str__(self):
