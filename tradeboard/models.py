@@ -46,7 +46,7 @@ class TradePost(models.Model):
         ratings = self.ratings.all()
         if ratings:
             total_ratings = sum([rating.rating for rating in ratings])
-            return total_ratings / len(ratings)
+            return round(total_ratings / len(ratings))
         return 0  
 
 
