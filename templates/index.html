@@ -57,7 +57,7 @@
                 <div class="card trade-post-card bg-dark" style="background-color: grey;">
                     <div class="trade-image-container">
                         <a href="{% url 'tradepost_detail' slug=trade_post.slug %}">
-                            <img class="card-img-top trade-image" src="{{ trade_post.trade_image.url }}" alt="Trade Image">
+                            <img class="card-img-top trade-image" src="{{ trade_post.trade_image.url }}" alt="Trade Image" width="300" height="200">
                         </a>
                     </div>
                     <div class="card-body ">
@@ -161,7 +161,7 @@
                         <label for="phone">Phone number</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <textarea class="form-control" id="customTextArea" name="message"  required></textarea>
+                        <textarea class="form-control" id="message" name="message"  required></textarea>
                         <label for="message">Message</label>
                     </div>
                     <div class="text-center">
@@ -178,13 +178,13 @@
     <div class="d-flex justify-content-center socials">
         <div class="socials-container d-flex justify-content-between align-items-center" style="width: 200px; margin: 0 auto;">
             <a href="!#" class="text-white">
-                <i class="fab fa-instagram"></i>
+                <i class="fab fa-instagram" aria-label="Instagram"></i>
             </a>
             <a href="!#" class="text-white">
-                <i class="fab fa-facebook-f"></i>
+                <i class="fab fa-facebook-f" aria-label="Facebook"></i>
             </a>
             <a href="!#" class="text-white">
-                <i class="fab fa-twitter"></i>
+                <i class="fab fa-twitter" aria-label="Twitter"></i>
             </a>
         </div>
     </div>
