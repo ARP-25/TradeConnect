@@ -1,3 +1,8 @@
+"""
+Module representing Django models for trade-related functionalities.
+
+Includes models for trade posts, ratings, comments, and contact messages.
+"""
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
@@ -8,6 +13,7 @@ from cloudinary.models import CloudinaryField
 
 STATUS = ((0, "Draft"), (1, "Published"))
 RATING_CHOICES = [(i, str(i)) for i in range(1, 11)]
+
 
 class TradePost(models.Model):
     """
@@ -29,25 +35,28 @@ class TradePost(models.Model):
     Meta:
         ordering: Ordering of trade posts by creation date.
     """
+
     title = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True, blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.TextField()
-    trade_image = CloudinaryField("image",default="placeholder")
+    trade_image = CloudinaryField("image", default="placeholder")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     status = models.IntegerField(choices=STATUS, default=1)
 
     class Meta:
-        ordering = ['-created_at']
+        ordering = ["-created_at"]
+
     def __str__(self):
         return self.title
+
     def average_rating(self):
         ratings = self.ratings.all()
         if ratings:
             total_ratings = sum([rating.rating for rating in ratings])
             return round(total_ratings / len(ratings))
-        return 0  
+        return 0
 
 
 class Rating(models.Model):
@@ -60,8 +69,10 @@ class Rating(models.Model):
         rating (int): The rating value given to the trade post.
 
     """
-    post = models.ForeignKey(TradePost, on_delete=models.CASCADE,
-        related_name='ratings')
+
+    post = models.ForeignKey(
+        TradePost, on_delete=models.CASCADE, related_name="ratings"
+    )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     rating = models.IntegerField(choices=RATING_CHOICES)
 
@@ -81,8 +92,10 @@ class Comment(models.Model):
     Meta:
         ordering: Ordering of comments by creation date.
     """
-    tradepost = models.ForeignKey(TradePost, on_delete=models.CASCADE,
-                             related_name="comments")
+
+    tradepost = models.ForeignKey(
+        TradePost, on_delete=models.CASCADE, related_name="comments"
+    )
     name = models.CharField(max_length=100)
     email = models.EmailField()
     body = models.TextField()
@@ -91,6 +104,7 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ["created_at"]
+
     def __str__(self):
         return f"Comment {self.body} by {self.name}"
 
@@ -105,6 +119,7 @@ class ContactMessage(models.Model):
         phone_number (str): The phone number of the person sending the message.
         body_message (str): The content of the message.
     """
+
     name = models.CharField(max_length=100)
     email = models.EmailField()
     phone_number = models.CharField(max_length=100)
@@ -125,13 +140,5 @@ def create_slug(sender, instance, *args, **kwargs):
         *args: Variable length argument list.
         **kwargs: Arbitrary keyword arguments.
     """
-    if not instance.slug or instance.slug == '':
+    if not instance.slug or instance.slug == "":
         instance.slug = slugify(instance.title)
-
-
-
-
-
-
-
-

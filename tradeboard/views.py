@@ -10,7 +10,6 @@ from .models import TradePost, Rating, ContactMessage, Comment
 from .forms import CommentForm, TradePostForm
 
 
-
 class TradePostList(generic.ListView):
     """
     ListView to display a paginated list of trade posts based on certain criteria.
@@ -25,7 +24,7 @@ class TradePostList(generic.ListView):
     """
 
     model = TradePost
-    template_name = 'index.html'
+    template_name = "index.html"
     paginate_by = 6
 
     def get_queryset(self):
@@ -36,24 +35,32 @@ class TradePostList(generic.ListView):
             queryset: Filtered and sorted queryset of TradePost objects.
         """
         queryset = TradePost.objects.filter(status=1)
-        sort_by = self.request.GET.get('sort_by')
+        sort_by = self.request.GET.get("sort_by")
 
-        if sort_by == 'old_to_new':
-            queryset = queryset.order_by('created_at')  
-        elif sort_by == 'new_to_old':
-            queryset = queryset.order_by('-created_at')  
+        if sort_by == "old_to_new":
+            queryset = queryset.order_by("created_at")
+        elif sort_by == "new_to_old":
+            queryset = queryset.order_by("-created_at")
 
-        elif sort_by == 'highest_rated':
-            queryset = TradePost.objects.annotate(avg_rating=Avg('ratings__rating')).exclude(avg_rating=0).order_by('-avg_rating')
-        elif sort_by == 'lowest_rated':
-            queryset = TradePost.objects.annotate(avg_rating=Avg('ratings__rating')).exclude(avg_rating=0).order_by('avg_rating')
+        elif sort_by == "highest_rated":
+            queryset = (
+                TradePost.objects.annotate(avg_rating=Avg("ratings__rating"))
+                .exclude(avg_rating=0)
+                .order_by("-avg_rating")
+            )
+        elif sort_by == "lowest_rated":
+            queryset = (
+                TradePost.objects.annotate(avg_rating=Avg("ratings__rating"))
+                .exclude(avg_rating=0)
+                .order_by("avg_rating")
+            )
 
-        elif sort_by == 'user_posts':
+        elif sort_by == "user_posts":
             if self.request.user.is_authenticated:
                 queryset = queryset.filter(author=self.request.user)
             else:
-                return TradePost.objects.none()  
-          
+                return TradePost.objects.none()
+
         return queryset
 
 
@@ -65,6 +72,7 @@ class TradePostDetail(View):
         get: Handle GET requests for viewing trade post details.
         post: Handle POST requests for adding comments to a trade post.
     """
+
     def get(self, request, slug, *args, **kwargs):
         """
         Handle GET requests to display trade post details and approved comments.
@@ -80,18 +88,23 @@ class TradePostDetail(View):
         """
         queryset = TradePost.objects.filter(status=1)
         tradepost = get_object_or_404(queryset, slug=slug)
-        comments = tradepost.comments.filter(approved=True).order_by('created_at')
+        comments = tradepost.comments.filter(approved=True).order_by("created_at")
 
         existing_rating = False
         if request.user.is_authenticated:
-            existing_rating = Rating.objects.filter(post=tradepost, user=request.user).exists()
-
+            existing_rating = Rating.objects.filter(
+                post=tradepost, user=request.user
+            ).exists()
 
         return render(
             request,
             "tradepost_detail.html",
             {
-                "tradepost": tradepost, "comments": comments,"commented": False, "existing_rating": existing_rating, "comment_form": CommentForm()
+                "tradepost": tradepost,
+                "comments": comments,
+                "commented": False,
+                "existing_rating": existing_rating,
+                "comment_form": CommentForm(),
             },
         )
 
@@ -110,8 +123,7 @@ class TradePostDetail(View):
         """
         queryset = TradePost.objects.filter(status=1)
         tradepost = get_object_or_404(queryset, slug=slug)
-        comments = tradepost.comments.filter(approved=True).order_by('created_at')
-
+        comments = tradepost.comments.filter(approved=True).order_by("created_at")
 
         comment_form = CommentForm(data=request.POST)
         if comment_form.is_valid():
@@ -120,12 +132,17 @@ class TradePostDetail(View):
             comment = comment_form.save(commit=False)
             comment.tradepost = tradepost
             comment.save()
-            messages.success(request, 'Your comment has been added successfully and will showcase after approval!')
+            messages.success(
+                request,
+                "Your comment has been added successfully and will showcase after approval!",
+            )
         else:
             comment_form = CommentForm()
 
+        return HttpResponseRedirect(
+            reverse("tradepost_detail", kwargs={"slug": tradepost.slug})
+        )
 
-        return HttpResponseRedirect(reverse('tradepost_detail', kwargs={'slug': tradepost.slug}))
 
 class TradePostRating(View):
     """
@@ -134,6 +151,7 @@ class TradePostRating(View):
     Methods:
         post: Handle POST requests to add or update ratings for a trade post.
     """
+
     def post(self, request, slug):
         """
         Handle POST requests to add or update ratings for a trade post.
@@ -146,23 +164,23 @@ class TradePostRating(View):
             HttpResponseRedirect: Redirects back to the trade post detail page.
         """
         tradepost = get_object_or_404(TradePost, slug=slug)
-        existing_rating = Rating.objects.filter(post=tradepost, user=request.user).first()
+        existing_rating = Rating.objects.filter(
+            post=tradepost, user=request.user
+        ).first()
 
         if existing_rating:
-            messages.warning(request, 'You have already rated this trade post.')
-            return HttpResponseRedirect(reverse('tradepost_detail', args=[slug]))
-      
-        rating_value = request.POST.get('rating')
+            messages.warning(request, "You have already rated this trade post.")
+            return HttpResponseRedirect(reverse("tradepost_detail", args=[slug]))
+
+        rating_value = request.POST.get("rating")
 
         new_rating = Rating.objects.create(
-            post=tradepost,
-            user=request.user,
-            rating=rating_value
+            post=tradepost, user=request.user, rating=rating_value
         )
 
         existing_rating = True
-        messages.success(request, 'Thank you for rating this trade post!')
-        return HttpResponseRedirect(reverse('tradepost_detail', args=[slug]))
+        messages.success(request, "Thank you for rating this trade post!")
+        return HttpResponseRedirect(reverse("tradepost_detail", args=[slug]))
 
 
 class TradePostDelete(View):
@@ -172,6 +190,7 @@ class TradePostDelete(View):
     Methods:
         post: Handle POST requests to delete a trade post.
     """
+
     def post(self, request, slug):
         """
         Handle POST requests to delete a trade post.
@@ -187,12 +206,11 @@ class TradePostDelete(View):
 
         try:
             tradepost.delete()
-            messages.success(request, 'Trade Post has been deleted!')
+            messages.success(request, "Trade Post has been deleted!")
         except Exception as e:
             messages.error(request, f"Error deleting Trade Post: {e}")
-                
 
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER', reverse('home')))
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER", reverse("home")))
 
 
 class TradePostCreate(View):
@@ -207,7 +225,7 @@ class TradePostCreate(View):
         post: Handle POST requests to create a new trade post.
     """
 
-    template_name = 'tradepost_create.html'
+    template_name = "tradepost_create.html"
 
     def get(self, request):
         """
@@ -220,7 +238,7 @@ class TradePostCreate(View):
             HttpResponse: Rendered HTML template with the trade post creation form.
         """
         form = TradePostForm()
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {"form": form})
 
     def post(self, request):
         """
@@ -235,26 +253,29 @@ class TradePostCreate(View):
         form = TradePostForm(request.POST, request.FILES)
 
         if form.is_valid():
-            title = form.cleaned_data['title']
-            slug = form.cleaned_data['title']
-            description = form.cleaned_data['description']
+            title = form.cleaned_data["title"]
+            slug = form.cleaned_data["title"]
+            description = form.cleaned_data["description"]
             author = request.user
-            trade_image = request.FILES['trade_image']
+            trade_image = request.FILES["trade_image"]
 
             trade_post = TradePost.objects.create(
                 title=title,
-                slug = slugify(title),
+                slug=slugify(title),
                 description=description,
                 author=author,
-                trade_image=trade_image
+                trade_image=trade_image,
             )
 
-            messages.success(request, 'Successfully added a TradePost. Awaiting approval before publishing.')
-            return HttpResponseRedirect(reverse('home'))  
+            messages.success(
+                request,
+                "Successfully added a TradePost. Awaiting approval before publishing.",
+            )
+            return HttpResponseRedirect(reverse("home"))
 
         else:
-            print(form.errors)  
-            return render(request, self.template_name, {'form': form})
+            print(form.errors)
+            return render(request, self.template_name, {"form": form})
 
 
 class TradePostEdit(View):
@@ -269,9 +290,9 @@ class TradePostEdit(View):
         post: Handle POST requests to update a trade post.
     """
 
-    template_name = 'tradepost_edit.html'  
+    template_name = "tradepost_edit.html"
 
-    def get(self, request, trade_post_slug):  
+    def get(self, request, trade_post_slug):
         """
         Handle GET requests to display the trade post edit form.
 
@@ -284,9 +305,11 @@ class TradePostEdit(View):
         """
         trade_post = get_object_or_404(TradePost, slug=trade_post_slug)
         form = TradePostForm(instance=trade_post)
-        return render(request, self.template_name, {'form': form,'trade_post': trade_post})
+        return render(
+            request, self.template_name, {"form": form, "trade_post": trade_post}
+        )
 
-    def post(self, request, trade_post_slug):  
+    def post(self, request, trade_post_slug):
         """
         Handle POST requests to update a trade post.
 
@@ -301,9 +324,9 @@ class TradePostEdit(View):
         form = TradePostForm(request.POST, instance=trade_post)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Successfully edited a TradePost.')
-            return HttpResponseRedirect(reverse('home'))  
-        return render(request, self.template_name, {'form': form})
+            messages.success(request, "Successfully edited a TradePost.")
+            return HttpResponseRedirect(reverse("home"))
+        return render(request, self.template_name, {"form": form})
 
 
 def submit_form(request):
@@ -316,25 +339,23 @@ def submit_form(request):
     Returns:
         HttpResponseRedirect: Redirects to the home page upon successful form submission.
     """
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        message = request.POST.get('message')
-        phone = request.POST.get('phone')
+    if request.method == "POST":
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        message = request.POST.get("message")
+        phone = request.POST.get("phone")
 
         try:
             contact_message = ContactMessage.objects.create(
-                name=name,
-                email=email,
-                body_message=message,
-                phone_number=phone
+                name=name, email=email, body_message=message, phone_number=phone
             )
-            messages.success(request, 'Thank you for submitting a message.')
-            return HttpResponseRedirect(reverse('home'))
+            messages.success(request, "Thank you for submitting a message.")
+            return HttpResponseRedirect(reverse("home"))
 
         except Exception as e:
             print(f"An error occurred: {e}")
-            messages.error(request, 'An error occurred while processing your request. Make sure to use a number max 9 characters long.')
-            return HttpResponseRedirect(reverse('home'))  
-
-
+            messages.error(
+                request,
+                "An error occurred while processing your request. Make sure to use a number max 9 characters long.",
+            )
+            return HttpResponseRedirect(reverse("home"))

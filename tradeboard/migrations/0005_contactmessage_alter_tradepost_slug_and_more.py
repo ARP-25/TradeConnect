@@ -4,30 +4,37 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('tradeboard', '0004_delete_item'),
+        ("tradeboard", "0004_delete_item"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='ContactMessage',
+            name="ContactMessage",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
-                ('email', models.EmailField(max_length=254)),
-                ('phone_number', models.IntegerField()),
-                ('body_message', models.TextField()),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100)),
+                ("email", models.EmailField(max_length=254)),
+                ("phone_number", models.IntegerField()),
+                ("body_message", models.TextField()),
             ],
         ),
         migrations.AlterField(
-            model_name='tradepost',
-            name='slug',
+            model_name="tradepost",
+            name="slug",
             field=models.SlugField(blank=True, max_length=100, unique=True),
         ),
         migrations.AlterField(
-            model_name='tradepost',
-            name='title',
+            model_name="tradepost",
+            name="title",
             field=models.CharField(max_length=100, unique=True),
         ),
     ]

@@ -1,5 +1,13 @@
-from .models import Comment, TradePost
+"""
+Module containing Django forms for comments and trade posts.
+
+Includes forms:
+- CommentForm: Form for adding a comment.
+- TradePostForm: Form for creating or updating a trade post.
+"""
 from django import forms
+from .models import Comment, TradePost
+
 
 
 class CommentForm(forms.ModelForm):
@@ -10,10 +18,18 @@ class CommentForm(forms.ModelForm):
         body (str): The content of the comment.
 
     """
+
     class Meta:
+        """
+        Form for adding a comment.
+
+        Fields:
+            body (str): The content of the comment.
+        """
         model = Comment
-        fields =('body',)
-    body = forms.CharField(label='', widget=forms.Textarea)
+        fields = ("body",)
+
+    body = forms.CharField(label="", widget=forms.Textarea)
 
 
 class TradePostForm(forms.ModelForm):
@@ -26,13 +42,9 @@ class TradePostForm(forms.ModelForm):
         trade_image (ImageField): The image associated with the trade post.
 
     """
+
     class Meta:
         model = TradePost
-        fields = ['title', 'description', 'trade_image']
+        fields = ["title", "description", "trade_image"]
 
     trade_image = forms.ImageField()
-
-
-
-
-

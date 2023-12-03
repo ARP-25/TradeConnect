@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
-from pathlib import Path  
+from pathlib import Path
 import dj_database_url
 from django.contrib.messages import constants as messages
 
@@ -31,7 +31,8 @@ DEBUG = False
 
 X_FRAME_OPTIONS = 'ALLOW-FROM https://ui.dev/amiresponsive'
 
-ALLOWED_HOSTS = ['8000-arp25-tradeconnect-jno9om1xnlt.ws-eu106.gitpod.io', 'localhost', 'tradeconnect-d0f5a2fe7023.herokuapp.com']
+ALLOWED_HOSTS = ['8000-arp25-tradeconnect-jno9om1xnlt.ws-eu106.gitpod.io', 'localhost',
+    'tradeconnect-d0f5a2fe7023.herokuapp.com']
 
 CSRF_TRUSTED_ORIGINS = ['https://8000-arp25-tradeconnect-jno9om1xnlt.ws-eu106.gitpod.io']
 
@@ -40,10 +41,17 @@ env_file = Path(__file__).resolve().parent.parent / 'env.py'
 # Validating import
 if env_file.is_file():
     try:
-        with open(env_file) as f:
+        with open(env_file, encoding='utf-8') as f:
             code = compile(f.read(), env_file, 'exec')
-            exec(code, globals())  
+            # Avoid using exec if possible, consider alternative solutions
+            exec(code, globals())
         print("env.py imported successfully")
+    except FileNotFoundError:
+        print("env.py file not found")
+    except PermissionError:
+        print("Permission denied to access env.py")
+    except SyntaxError as e:
+        print(f"Syntax error in env.py: {e}")
     except Exception as e:
         print(f"Error importing env.py: {e}")
 else:
