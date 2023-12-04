@@ -345,7 +345,6 @@ Automated Testing completes with zero errors:
 | Redirect after Successful Signup   | Redirects to the expected page after successful registration.               |  &#10004;            |
 
 
-
 ### Browser Compatibility
 
 - Testing has been carried out on the following browsers :
@@ -354,12 +353,41 @@ Automated Testing completes with zero errors:
     - Safari on iPhone (iOS-Version 17.1 (c))
 
 
-
 ## Deployment
 
 ### How this site was deployed
 
+- Installing Django and Required Libraries:
 
+    - Install Django 3.2 and Gunicorn.
+    - Install supporting libraries like dj_database_url, psycopg2, dj3-cloudinary-storage, and others using pip.[Frameworks, Libraries & Programs Used](#frameworks-libraries-programs-used)
+    - Create a requirements.txt file to track all installed packages.
+    - Creating Django Project and App:
+
+    - Create a Django project using django-admin startproject PROJ_NAME .
+    - Add a new app within the project using python3 manage.py startapp APP_NAME.
+    - Update INSTALLED_APPS in settings.py.
+    
+- Database Setup:
+
+    - Create a database on Cloudinary.
+    - Create a new Heroku app and configure its environment variables, adding the DATABASE_URL.
+    - Environment and Settings Configuration:
+
+    - Create an env.py file to set environment variables locally.
+    - Update settings.py to reference these environment variables for sensitive information like SECRET_KEY and DATABASE_URL.
+    - Storing Static and Media Files on Cloudinary:
+
+    - Retrieve the Cloudinary URL/API environment variable.
+    - Add the Cloudinary URL to environment variables locally and on Heroku.
+    - Configure settings.py to use Cloudinary for storing static and media files.
+
+- Heroku Deployment Setup:
+
+    - Create necessary directories (media, static, templates) and a Procfile.
+    - Configure the Procfile to instruct Heroku to run the Django project using Gunicorn.
+    - Add, commit, and push the changes to your GitHub repository.
+    - Deploy the content through Heroku's deploy section in the Dashboard.(https://dashboard.heroku.com/apps/"name-of-app"/deploy/github)
 
   The live link can be found here - [Tradeconnect](https://tradeconnect-d0f5a2fe7023.herokuapp.com/) 
 
