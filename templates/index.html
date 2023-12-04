@@ -57,7 +57,7 @@
                 <div class="card trade-post-card bg-dark" style="background-color: grey;">
                     <div class="trade-image-container">
                         <a href="{% url 'tradepost_detail' slug=trade_post.slug %}">
-                            <img class="card-img-top trade-image" src="{{ trade_post.trade_image.url }}" alt="Trade Image" width="300" height="200">
+                            <img class="card-img-top trade-image" src="{{ trade_post.trade_image.url }}" alt="Trade Image">
                         </a>
                     </div>
                     <div class="card-body ">
@@ -177,13 +177,13 @@
 <footer class="py-5 bg-black" >
     <div class="d-flex justify-content-center socials">
         <div class="socials-container d-flex justify-content-between align-items-center" style="width: 200px; margin: 0 auto;">
-            <a href="!#" class="text-white">
+            <a href="{% url 'home' %}" class="text-white">
                 <i class="fab fa-instagram" aria-label="Instagram"></i>
             </a>
-            <a href="!#" class="text-white">
+            <a href="{% url 'home' %}" class="text-white">
                 <i class="fab fa-facebook-f" aria-label="Facebook"></i>
             </a>
-            <a href="!#" class="text-white">
+            <a href="{% url 'home' %}" class="text-white">
                 <i class="fab fa-twitter" aria-label="Twitter"></i>
             </a>
         </div>

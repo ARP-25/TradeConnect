@@ -223,4 +223,4 @@ class SubmitFormViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(ContactMessage.objects.count(), 1)
 
-        self.assertContains(response, "Thank you for submitting a Message.")
+        self.assertContains(response, "Thank you for submitting a message.")
