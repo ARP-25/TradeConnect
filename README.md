@@ -20,31 +20,27 @@ TradeConnect  An interactive Django-powered platform designed for traders. Share
 
 ### User stories
 
-#### Start Page: 
+- US01 Register/Login to the App
 
-- US01 Get a idea what the purpose of the page is about and see clear and concise instructions on how the game works so that I can quickly understand how to play.
+- US02 Create a Trade Post
 
-- US02 Be able to enter my username so that I can personalize my gaming experience.
+- US03 Edit a Trade Post
 
-- US03 Receive feedback if I enter an invalid or empty username so that I know what I need to correct.
+- US04 Search and sort Trade Post
 
-- US04 Have a "Start Game" button on the instructions page so that I can begin playing the game.
+- US05 Delete a Trade Post
 
-#### Game Page:
+- US06 Rate a Trade Post
 
-- US05 Have clear and intuitive game controls to interact with the game effectively.
+- US07 View of a detailed Trade Post
 
-- US06 Receive instructions or guidance on how to play the game against the computer.
+- US08 Comment a Trade Post
 
-- US07 See my current score or progress during the game so that I can track my performance.
-
-- US08 Have the option to exit the game and return to the instructions page in case I want to review the game rules, change my username or simply start a new game.
+- US09 Contact Site Owner
 
 ## Features
 
 ### Existing Features
-
-#### Start Page
 
 -  F01 Header 
     -   Logo
@@ -63,8 +59,6 @@ TradeConnect  An interactive Django-powered platform designed for traders. Share
     -   Will check if Player Name is entered
     ![Start Game Button](assets/documentation/images/feature_4.png) 
 
-
-#### Game Page
 
 -  F05 Header 
     -   Logo
