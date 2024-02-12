@@ -33,9 +33,9 @@ DEBUG = False
 X_FRAME_OPTIONS = 'ALLOW-FROM https://ui.dev/amiresponsive'
 
 ALLOWED_HOSTS = ['8000-arp25-tradeconnect-jno9om1xnlt.ws-eu106.gitpod.io', 'localhost',
-    'tradeconnect-d0f5a2fe7023.herokuapp.com']
+    'tradeconnect-d0f5a2fe7023.herokuapp.com', '8000-arp25-tradeconnect-ceoi5nbgzm3.ws-eu108.gitpod.io']
 
-CSRF_TRUSTED_ORIGINS = ['https://8000-arp25-tradeconnect-jno9om1xnlt.ws-eu106.gitpod.io']
+CSRF_TRUSTED_ORIGINS = ['https://8000-arp25-tradeconnect-jno9om1xnlt.ws-eu106.gitpod.io', 'https://8000-arp25-tradeconnect-ceoi5nbgzm3.ws-eu108.gitpod.io']
 
 
 env_file = Path(__file__).resolve().parent.parent / 'env.py'

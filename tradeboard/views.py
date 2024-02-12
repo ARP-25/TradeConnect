@@ -6,6 +6,9 @@ from django.views.generic import DeleteView, TemplateView
 from django.utils.text import slugify
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Avg
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import TradePost, Rating, ContactMessage, Comment
 from .forms import CommentForm, TradePostForm
 
@@ -183,7 +186,8 @@ class TradePostRating(View):
         return HttpResponseRedirect(reverse("tradepost_detail", args=[slug]))
 
 
-class TradePostDelete(View):
+@method_decorator(login_required, name='dispatch')
+class TradePostDelete(LoginRequiredMixin, View):
     """
     View to handle the deletion of a trade post.
 
@@ -203,6 +207,11 @@ class TradePostDelete(View):
             HttpResponseRedirect: Redirects to the previous page or home upon deletion.
         """
         tradepost = get_object_or_404(TradePost, slug=slug)
+
+        # Check if the request user is the owner
+        if tradepost.author != request.user:
+            messages.error(request, "You do not have permission to delete this trade post.")
+            return HttpResponseRedirect(request.META.get("HTTP_REFERER", reverse("home")))
 
         try:
             tradepost.delete()
@@ -278,6 +287,7 @@ class TradePostCreate(View):
             return render(request, self.template_name, {"form": form})
 
 
+@method_decorator(login_required, name='dispatch')
 class TradePostEdit(View):
     """
     View to handle the editing of a trade post.
@@ -304,6 +314,12 @@ class TradePostEdit(View):
             HttpResponse: Rendered HTML template with the trade post edit form and trade post details.
         """
         trade_post = get_object_or_404(TradePost, slug=trade_post_slug)
+
+        # Check if the request user is the owner
+        if trade_post.author != request.user:
+            messages.error(request, "You do not have permission to edit this trade post.")
+            return HttpResponseRedirect(reverse("home"))
+
         form = TradePostForm(instance=trade_post)
         return render(
             request, self.template_name, {"form": form, "trade_post": trade_post}
@@ -321,6 +337,12 @@ class TradePostEdit(View):
             HttpResponseRedirect: Redirects to the home page upon successful update or renders the form with errors.
         """
         trade_post = get_object_or_404(TradePost, slug=trade_post_slug)
+
+        # Check if the request user is the owner
+        if trade_post.author != request.user:
+            messages.error(request, "You do not have permission to edit this trade post.")
+            return HttpResponseRedirect(reverse("home"))
+
         form = TradePostForm(request.POST, instance=trade_post)
         if form.is_valid():
             form.save()
