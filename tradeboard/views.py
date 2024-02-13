@@ -146,7 +146,7 @@ class TradePostDetail(View):
             reverse("tradepost_detail", kwargs={"slug": tradepost.slug})
         )
 
-
+@method_decorator(login_required, name='dispatch')
 class TradePostRating(View):
     """
     View to handle user ratings for trade posts.
@@ -221,7 +221,7 @@ class TradePostDelete(LoginRequiredMixin, View):
 
         return HttpResponseRedirect(request.META.get("HTTP_REFERER", reverse("home")))
 
-
+@method_decorator(login_required, name='dispatch')
 class TradePostCreate(View):
     """
     View to handle the creation of new trade posts.

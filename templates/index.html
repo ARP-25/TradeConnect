@@ -9,14 +9,18 @@
             <div class="col-lg-6">
                 <div class="text-center my-5">
                     <h1 class="display-6 fw-bolder text-white mb-2">Connect, Share, and Prosper</h1>
-                    <p class="lead text-white-50 mb-4">Your hub for seamless trade sharing. Post your trades, engage with a vibrant community, and leverage ratings and comments to refine your strategy. Join us and elevate your trading journey.</p>
+                    <p class="lead text-white-50 mb-4">Your hub for seamless trade sharing. Post your trades, engage
+                        with a vibrant community, and leverage ratings and comments to refine your strategy. Join us and
+                        elevate your trading journey.</p>
                     <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
                         {% if user.is_authenticated %}
-                            <a class="btn btn-primary btn-lg px-4" href="{% url 'tradepost_create' %}"><i class="fa-solid fa-plus"> </i> Post a Trade!</a>
+                        <a class="btn btn-primary btn-lg px-4" href="{% url 'tradepost_create' %}"><i
+                                class="fa-solid fa-plus"> </i> Post a Trade!</a>
                         {% else %}
-                                <div class="col-12">
-                                    <a class="btn btn-primary btn-lg px-4 me-sm-3 mb-3" href="{% url 'account_login' %}">Login to Post a Trade</a>
-                                </div>
+                        <div class="col-12">
+                            <a class="btn btn-primary btn-lg px-4 me-sm-3 mb-3" href="{% url 'account_login' %}">Login
+                                to Post a Trade</a>
+                        </div>
                         {% endif %}
                     </div>
                 </div>
@@ -28,20 +32,23 @@
 <!-- Filter -->
 <div class="text-center filter-div">
     <div class="dropdown d-inline-block">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+            data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fa-solid fa-filter"></i>
             Sort
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <li>
-                <form method="GET" action="">
+                <form method="GET">
                     <button class="dropdown-item" type="submit" name="sort_by" value="old_to_new">Oldest</button>
                     <button class="dropdown-item" type="submit" name="sort_by" value="new_to_old">Newest</button>
-                    <button class="dropdown-item" type="submit" name="sort_by" value="highest_rated">Highest Rated</button>
-                    <button class="dropdown-item" type="submit" name="sort_by" value="lowest_rated">Lowest Rated</button>
+                    <button class="dropdown-item" type="submit" name="sort_by" value="highest_rated">Highest
+                        Rated</button>
+                    <button class="dropdown-item" type="submit" name="sort_by" value="lowest_rated">Lowest
+                        Rated</button>
                     <button class="dropdown-item" type="submit" name="show_all" value="true">Show All Trades</button>
                     {% if request.user.is_authenticated %}
-                        <button class="dropdown-item" type="submit" name="sort_by" value="user_posts">By User</button>
+                    <button class="dropdown-item" type="submit" name="sort_by" value="user_posts">By User</button>
                     {% endif %}
                 </form>
             </li>
@@ -53,84 +60,88 @@
 <div class="container" id="tradeposts">
     <div class="row">
         {% for trade_post in object_list %}
-            <div class="col-md-4 mb-4 ">
-                <div class="card trade-post-card bg-dark" style="background-color: grey;">
-                    <div class="trade-image-container">
-                        <a href="{% url 'tradepost_detail' slug=trade_post.slug %}">
-                            <img class="card-img-top trade-image" src="{{ trade_post.trade_image.url }}" alt="Trade Image">
+        <div class="col-md-4 mb-4 ">
+            <div class="card trade-post-card bg-dark" style="background-color: grey;">
+                <div class="trade-image-container">
+                    <a href="{% url 'tradepost_detail' slug=trade_post.slug %}">
+                        <img class="card-img-top trade-image" src="{{ trade_post.trade_image.url }}" alt="Trade Image">
+                    </a>
+                </div>
+                <div class="card-body ">
+                    <h2 class="card-title">
+                        <a href="{% url 'tradepost_detail' slug=trade_post.slug %}"
+                            class="text-decoration-none text-light">
+                            {{ trade_post.title }}
                         </a>
-                    </div>
-                    <div class="card-body ">
-                        <h2 class="card-title">
-                            <a href="{% url 'tradepost_detail' slug=trade_post.slug %}" class="text-decoration-none text-light">
-                                {{ trade_post.title }}
-                            </a>
-                        </h2>
-                        <p class="text-warning fst-italic trade-description">
-                            {% if trade_post.description|length > 30 %}
-                                {{ trade_post.description|slice:":30" }}{{ "..." }}
-                            {% else %}
-                                {{ trade_post.description }}
-                            {% endif %}
-                        </p>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item bg-dark text-light">Author: {{ trade_post.author.username }}</li>
-                            <li class="list-group-item bg-dark text-light">Created at: {{ trade_post.created_at }}</li>
-                            <li class="list-group-item bg-dark text-light">Updated at: {{ trade_post.updated_at }}</li>
-                            <li class="list-group-item bg-dark text-light">Average Rating: {{ trade_post.average_rating }}/10</li>
-                            {% if trade_post.author == request.user %} 
-                                <form action="{% url 'tradepost_delete' trade_post.slug %}" method="post">
-                                    {% csrf_token %}
-                                    <button class="button-53 button-53-delete">
-                                        <i class="fa-solid fa-trash" style="position: relative; bottom: 5px; right: 5px"></i>delete
-                                    </button>
-                                </form>
-                                <a class="text-decoration-none" href="{% url 'tradepost_edit' trade_post.slug %}">
-                                    <button class="button-53 button-53-edit">
-                                        <i class="fa-solid fa-pen-to-square" style="position: relative; bottom: 5px; right: 5px"></i>edit
-                                    </button>
-                                </a>
-                            {% endif %}
-                        </ul>                      
-                    </div>
+                    </h2>
+                    <p class="text-warning fst-italic trade-description">
+                        {% if trade_post.description|length > 30 %}
+                        {{ trade_post.description|slice:":30" }}{{ "..." }}
+                        {% else %}
+                        {{ trade_post.description }}
+                        {% endif %}
+                    </p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item bg-dark text-light">Author: {{ trade_post.author.username }}</li>
+                        <li class="list-group-item bg-dark text-light">Created at: {{ trade_post.created_at }}</li>
+                        <li class="list-group-item bg-dark text-light">Updated at: {{ trade_post.updated_at }}</li>
+                        <li class="list-group-item bg-dark text-light">Average Rating:
+                            {{ trade_post.average_rating }}/10</li>
+                        {% if trade_post.author == request.user %}
+                        <form action="{% url 'tradepost_delete' trade_post.slug %}" method="post">
+                            {% csrf_token %}
+                            <button class="button-53 button-53-delete">
+                                <i class="fa-solid fa-trash"
+                                    style="position: relative; bottom: 5px; right: 5px"></i>delete
+                            </button>
+                        </form>
+                        <a class="text-decoration-none" href="{% url 'tradepost_edit' trade_post.slug %}">
+                            <button class="button-53 button-53-edit">
+                                <i class="fa-solid fa-pen-to-square"
+                                    style="position: relative; bottom: 5px; right: 5px"></i>edit
+                            </button>
+                        </a>
+                        {% endif %}
+                    </ul>
                 </div>
             </div>
+        </div>
         {% endfor %}
     </div>
-    
+
     <!-- Pagination controls -->
     <nav aria-label="Pagination">
         <ul class="pagination justify-content-center">
             {% if is_paginated %}
-                {% if page_obj.has_previous %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page=1" aria-label="First">
-                            <span aria-hidden="true">&laquo;&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                {% endif %}
-                {% for num in page_obj.paginator.page_range %}
-                    <li class="page-item {% if num == page_obj.number %}active{% endif %}">
-                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-                    </li>
-                {% endfor %}
-                {% if page_obj.has_next %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
-                            <span aria-hidden="true">&raquo;&raquo;</span>
-                        </a>
-                    </li>
-                {% endif %}
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1" aria-label="First">
+                    <span aria-hidden="true">&laquo;&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+            <li class="page-item {% if num == page_obj.number %}active{% endif %}">
+                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+            </li>
+            {% endfor %}
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                    <span aria-hidden="true">&raquo;&raquo;</span>
+                </a>
+            </li>
+            {% endif %}
             {% endif %}
         </ul>
     </nav>
@@ -142,41 +153,44 @@
         <div class="text-center mb-5">
             <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-envelope"></i></div>
             <h2 class="fw-bolder">Get in touch</h2>
-            <p class="lead mb-0">Get Involved! Send Your Queries, Collaborate on this Project, or simply give a suggestion for Website improvement.</p>
+            <p class="lead mb-0">Get Involved! Send Your Queries, Collaborate on this Project, or simply give a
+                suggestion for Website improvement.</p>
         </div>
         <div class="row gx-5 justify-content-center">
             <div class="col-lg-6">
-                <form name="myForm" onsubmit="return validateForm()" action="{% url 'submit_form' %}" method="post" >
+                <form name="myForm" onsubmit="return validateForm()" action="{% url 'submit_form' %}" method="post">
                     {% csrf_token %}
                     <div class="form-floating mb-3">
-                        <input class="form-control" id="name" name="name" type="text"required>
+                        <input class="form-control" id="name" name="name" type="text" required>
                         <label for="name">Name</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input class="form-control" id="email" name="email" type="email"  required>
+                        <input class="form-control" id="email" name="email" type="email" required>
                         <label for="email">Email address</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input class="form-control" id="phone" name="phone" type="text"  title="Please enter only numbers"  required>
+                        <input class="form-control" id="phone" name="phone" type="text"
+                            title="Please enter only numbers" required>
                         <label for="phone">Phone number</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <textarea class="form-control" id="message" name="message"  required></textarea>
+                        <textarea class="form-control" id="message" name="message" required></textarea>
                         <label for="message">Message</label>
                     </div>
                     <div class="text-center">
                         <button class="btn btn-primary btn-lg" type="submit">Submit</button>
                     </div>
-                </form>               
+                </form>
             </div>
         </div>
     </div>
 </section>
 
 <!-- Footer-->
-<footer class="py-5 bg-black" >
+<footer class="py-5 bg-black">
     <div class="d-flex justify-content-center socials">
-        <div class="socials-container d-flex justify-content-between align-items-center" style="width: 200px; margin: 0 auto;">
+        <div class="socials-container d-flex justify-content-between align-items-center"
+            style="width: 200px; margin: 0 auto;">
             <a href="{% url 'home' %}" class="text-white">
                 <i class="fab fa-instagram" aria-label="Instagram"></i>
             </a>
@@ -188,8 +202,9 @@
             </a>
         </div>
     </div>
-    <div class="container px-5"><p class="m-0 text-center text-white">Copyright &copy; ARP25 2023</p></div>
+    <div class="container px-5">
+        <p class="m-0 text-center text-white">Copyright &copy; ARP25 2023</p>
+    </div>
 </footer>
 
 {% endblock %}
-
